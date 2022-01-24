@@ -1,0 +1,407 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<style>  
+  /* Create two equal columns that floats next to each other */
+  .top-left-column {
+    flex: 90%;
+    height: 5%;
+  }
+  
+  .top-right-column {
+    flex: 10%;
+    height: 5%;
+  }
+  .top-row {
+    display: flex;
+  }
+  
+  .addInteractionDiv {
+	width: 7%
+  }
+  
+  .interactionTypes a {
+    color: #2196f3
+  }
+  
+  .ul-container {
+   	margin:0 auto;
+   	//background:yellow;
+   	text-align:center;
+   	overflow:auto;
+   	min-width:201px;
+   	max-width:901px;
+   	display:block;
+   	list-style:none;
+  }
+
+  li {
+   	background-color:#FDF2E9;
+   	border:1px solid #F0F3F4;
+   	box-sizing:border-box;
+   	float:left;
+   	height:100px;
+   	width:100px;
+   	margin:5px 3px;
+  }
+  
+  table {
+    font-family: arial, sans-serif;
+    font-size: 100%;
+    font-weight: bold;
+    border-spacing: 15px 8px;
+    border-collapse: separate;
+    border: 1px solid white;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #F0F3F4;
+    text-align: center;
+    padding: 12px;
+    background-color: #FDF2E9;
+    border-radius: 4px;
+  }
+  
+  td {
+	height: 15vw;
+    width: 15vw;
+  }
+
+  //tr:nth-child(even) {
+    //background-color: #dddddd;
+  //}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+  $( function() {
+	var name = $("#name");
+	var addMessageOrFolderDialog = $("#addMessageOrFolderDialog").dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Save": saveInteraction,
+        Cancel: function() {
+          addMessageOrFolderDialog.dialog( "close" );
+        }
+      },
+      close: function() {
+		onAddMsgFoldrDlgClose();
+        //form[ 0 ].reset();
+        //allFields.removeClass( "ui-state-error" );
+      }
+    });
+    
+    //Can per page load actions
+    //load saved levels & tiles
+    loadSavedLevelsFromCache();
+  });
+  let globalSettings = new Settings();
+  
+  function loadSavedLevelsFromCache(){
+    var localStorage = window.localStorage;
+    var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
+    levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
+      console.log(item);
+      var ul = document.getElementById("ul-level-1");
+      var li = document.createElement("li");
+      li.appendChild(document.createTextNode(item));
+      ul.appendChild(li);
+    });
+  }
+  
+  function onAddMsgFoldrDlgClose(){
+	$("#interactionTypes").dialog( "close" );
+  }
+  
+  function Settings(adminMode, menuId) {
+    this.adminMode = adminMode;
+    this.menuId = menuId;
+    this.greeting = function() {
+      alert('Hi! I\'m ' + this.name + '.');
+    };
+  }
+  
+  const handleSuccess = function(stream) {
+    const saveButton = document.getElementById('save');
+    
+    const options = {mimeType: 'audio/webm'};
+    const recordedChunks = [];
+    const mediaRecorder = new MediaRecorder(stream, options);
+
+    mediaRecorder.addEventListener('dataavailable', function(e) {
+      if (e.data.size > 0) recordedChunks.push(e.data);
+    });
+
+    mediaRecorder.addEventListener('stop', async function() {
+      globalSettings.voice = new Blob(recordedChunks);
+      const base64Voice = await toBase64(globalSettings.voice);
+      window.localStorage.setItem(globalSettings.menuId.toLowerCase(), base64Voice);
+      /*toBase64(URL.createObjectURL(new Blob(recordedChunks))).then(base64VoiceFile => {
+        localStorage.setItem(globalSettings.menuId.toLowerCase(), base64VoiceFile);
+        console.log(localStorage.getItem(globalSettings.menuId.toLowerCase()));        	
+      });*/
+      //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+      //downloadLink.download = 'acetest.wav';
+    });
+
+    saveButton.addEventListener('click', function() {
+      mediaRecorder.stop();
+    });
+
+    mediaRecorder.start();
+  };
+  
+  function startRecording(){
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(handleSuccess);
+  }
+  
+  function getAudioFile(submenuId){
+    var audioFile;
+    switch(submenuId){
+      case 'food-menu': audioFile = 'https://drive.google.com/file/d/1HnqTHf1tbl-iWUbnChaYdrCHyBTirOzD/view?usp=sharing';
+    }
+    return audioFile;
+  }
+  
+  function getAudioFileAsBase64(submenuId){    
+    var localStorage = window.localStorage;
+    var audioBase64 = localStorage.getItem(submenuId);
+    /*switch(submenuId){
+      case 'pain-menu': audioBase64 = localStorage.getItem();break;
+      case 'food-menu': audioBase64 = 
+    }*/
+    //return 'data:audio/wav;base64,' + audioBase64;
+    return audioBase64;
+  }
+  
+  function showSubMenu(submenuId){
+    document.getElementById("main-menu").style.display="none";
+    document.getElementById(submenuId).style.display="block";
+    document.getElementById("back").style.display="block";
+    //var audio = new Audio(getAudioFileAsBase64(submenuId.toLowerCase()));    
+    //audio.play();
+    handleMenuDisplay(submenuId);
+  }
+  
+  function showMainMenu(menuId){
+    document.getElementById("main-menu").style.display="table";
+    document.getElementById("food-menu").style.display="none";
+    document.getElementById("pain-menu").style.display="none";
+    document.getElementById("back").style.display="none";
+  }
+  
+  function showText(val){
+    handleMenuDisplay(val.innerText);
+    //alert(val.innerHTML);
+  }
+  
+  async function playRecordedAudio(param){
+    try{
+      var menuId = param ? param : globalSettings.menuId.toLowerCase();
+      var localStorage = window.localStorage;
+      const base64Data = localStorage.getItem(menuId);
+      const base64Response = await fetch(base64Data);
+      var audio = new Audio(URL.createObjectURL(dataURItoBlob(base64Data)/*new Blob(localStorage.getItem('food'))*/));
+      //alert(globalSettings.menuId);
+      audio.play();
+    }catch(e){
+      console.log(e);
+    }
+  }
+  
+  function handleMenuDisplay(menuId){
+    globalSettings.menuId = menuId;
+    if (globalSettings.adminMode){
+    	document.getElementById("record-controls").style.display="table";
+    }else{
+      	
+    }    
+    playRecordedAudio();
+  }
+  
+  function showSettings(){
+    globalSettings.adminMode = !globalSettings.adminMode;
+	if (globalSettings.adminMode){
+		document.getElementById("addInteractionDiv").style.display="table";
+	}else{
+		document.getElementById("addInteractionDiv").style.display="none";
+	}
+    //alert('Settings enabled');
+	//$( "#aac_settings" ).dialog();
+  }
+  
+  toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+  
+  async function voiceFilesUploaded(event){
+	var localStorage = window.localStorage;
+    document.querySelector('#upload-files').files && Array.from(document.querySelector('#upload-files').files).forEach(voiceFile => {
+      toBase64(voiceFile).then(base64VoiceFile => {
+        localStorage.setItem(voiceFile.name.replaceAll('.m4a','').toLowerCase(), base64VoiceFile);
+        console.log(localStorage.getItem(voiceFile.name.replaceAll('.m4a','').toLowerCase()));        	
+      });      
+    });
+    
+  }
+  
+  function closeVoiceControls(){
+    document.getElementById("record-controls").style.display="none";
+  }
+  
+  function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    var ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    var blob = new Blob([ab], {type: mimeString});
+    return blob;
+
+  }
+  
+  function chooseInterationType(){
+	$( "#interactionTypes" ).dialog();
+  }
+  
+  const InteractionType = Object.freeze({
+	"Message":1,
+	"Folder":2
+  })  
+	
+  function addFolderOrMessage(interactionType){
+	//addMessageOrFolderDialog.dialog("open");
+    $("#addMessageOrFolderDialog").dialog("open");
+  }
+  
+  function saveInteraction(){
+	var ul = document.getElementById("ul-level-1");
+	var li = document.createElement("li");
+	li.appendChild(document.createTextNode($("#name").val()));
+	ul.appendChild(li);
+    var localStorage = window.localStorage;
+    var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
+    if (!levelItems || !Array.isArray(levelItems)){
+      levelItems = [];
+    }
+    levelItems.push($("#name").val());
+    localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
+  }
+  
+</script>
+
+<div class="top-row">
+  <div id="addInteractionDiv" class="addInteractionDiv" style="display:none">
+	<button id="addInteractionBtn" onclick="chooseInterationType()">Add</button>
+  </div>
+  <div id="record-controls" style="display:none">
+    <button id="record" onclick="startRecording()">Record</button>
+    <button id="stop">Stop</button>
+    <button id="play" onclick="playRecordedAudio()">Play</button>
+    <button id="save">Save</button>
+    <button id="close-record-controls" onclick="closeVoiceControls()">Close</button>
+  </div>
+  <div  class="top-left-column top-left">
+      <a id="back" style="display:none" href="#" onclick="showMainMenu('main-menu')">Back</a>
+  </div>
+  <div id="aac-settings-icon" class="top-right-column top-right">
+      <a href="#" onclick="showSettings()">Settings</a>
+  </div>
+</div>  
+
+<div id="level-1">
+	<ul id="ul-level-1" class="ul-container">
+	</ul>
+</div>
+<!--table id="main-menu">
+  <tr>
+    <td onclick="showSubMenu('food-menu')"><div class="cell-around"><div class="cell-title">Food</div><div class="cell-picture"><img alt="" border="0" width="200" data-original-height="204" data-original-width="247" src="https://blogger.googleusercontent.com/img/a/AVvXsEhWcRPwh_buY3hEHuweexy12QtH7AXpmrAAKwiRpjIu8EtHs9UYo-c3_YOtpPlExCGkLNitDxTs6Cgl9XlaHWBw7WGzHVU5jdfMn6UWU_MpGyLr3-gqm6gSwV7GKTKFBDqqFA3C9of7XUss5RSPzw0osWhJJFjSlspTFt7jz7ZsbSugJLKDRbHonK3W=s200"/></div></div></td>
+    <td><a href="#" onclick="showSubMenu('pain-menu')">Pain</a></td>
+    <td>Toy</td>
+  </tr>
+  <tr>
+    <td>Cloths</td>
+    <td>Bed sheet</td>
+    <td>Other</td>    
+  </tr>
+</table-->
+
+<div id="pain-menu" style="display:none">
+  <table>
+    <tr>
+      <td><a href="#" onclick="showText(this)">Head</a></td>
+      <td><a href="#" onclick="showText(this)">Forehead</a></td>
+      <td><a href="#" onclick="showText(this)">Stomach</a></td>
+      <td><a href="#" onclick="showText(this)">Left eye</a></td>
+    </tr>
+    <tr>         
+      <td><a href="#" onclick="showText(this)">Right eye</a></td>
+      <td><a href="#" onclick="showText(this)">Left ear</a></td>
+      <td><a href="#" onclick="showText(this)">Right ear</a></td>
+      <td><a href="#" onclick="showText(this)">Front teeth</a></td>
+    </tr>
+    <tr>
+      <td><a href="#" onclick="showText(this)">Left side teeth</a></td>
+      <td><a href="#" onclick="showText(this)">Right side teeth</a></td>
+      <td><a href="#" onclick="showText(this)">Other pain</a></td>
+    </tr>
+  </table>
+</div>
+
+<div id="food-menu" style="display:none">
+  <table>
+    <tr>
+      <td><a href="#" onclick="showText(this)">Chips</a></td>
+      <td><a href="#" onclick="showText(this)">Samosa</a></td>
+      <td><a href="#" onclick="showText(this)">Chocolate</a></td>
+    </tr>
+    <tr>   
+      <td><a href="#" onclick="showText(this)">Muruku</a></td>
+      <td><a href="#" onclick="showText(this)">Mixture</a></td>    <td><a href="#" onclick="showText(this)">Other</a></td>
+    </tr>
+  </table>
+</div>
+
+<div id='addMessageOrFolderDialog' style="display:none">
+	<!--same div for both folder or message, in either case, should be able to 
+		enter name, record voice, set/upload picture-->
+	<form>
+		<fieldset>
+			<label for="name">Name</label>
+			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+		</fieldset>
+	</form>
+</div>
+
+<div id='interactionTypes' title="Add" class="interactionTypes" style="display:none">
+  <a href="#" onclick="addFolderOrMessage(InteractionType.Message)">Add message</a><p/>
+  <a href="#" onclick="addFolderOrMessage(InteractionType.Folder)">Add folder</a>
+</div>
+
+<div id='aac_settings' style="display:none">
+  <label for="upload-files">Select voice files to load:</label>
+  <input type="file" multiple=true id="upload-files" onchange='voiceFilesUploaded(event)'/>
+</div>
