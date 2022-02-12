@@ -3,12 +3,12 @@
 <style>  
   /* Create two equal columns that floats next to each other */
   .top-left-column {
-    flex: 90%;
+    flex: 80%;
     height: 5%;
   }
   
   .top-right-column {
-    flex: 10%;
+    flex: 17%;
     height: 5%;
   }
   .top-row {
@@ -16,7 +16,7 @@
   }
   
   .addInteractionDiv {
-	width: 7%
+	width: 15%
   }
   
   .interactionTypes a {
@@ -34,7 +34,8 @@
    	list-style:none;
   }
 
-  li {
+  .leaf-item {
+    font-weight:bold;
    	background-color:#FDF2E9;
    	border:1px solid #F0F3F4;
    	box-sizing:border-box;
@@ -42,6 +43,18 @@
    	height:100px;
    	width:100px;
    	margin:5px 3px;
+  }
+  
+  .folder-item {
+    font-weight:bold;
+   	background-color:#FDF2E9;
+   	border:1px solid #F0F3F4;
+   	box-sizing:border-box;
+   	float:left;
+   	height:100px;
+   	width:100px;
+   	margin:5px 3px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA6lBMVEUAAAD/uQD/uQD/uQD/uQD/uQD/uQD/uwD/uQD/uQD/uQD/uQD/ugD/uQD/ugD/1lr/0En/yjL/1ln/xzP/0En/11zominomij/uQD/01n/55//33//11//01r/56D/34D/12D/6KD/4IH/2GH/1Fr/1Vz/6KH/2GL/vRD/23T/vhL/xi7/1WH/5Zn/553/3Xf/5pr/4IX/2Wj/2GP/3nj/3XP/22z/2WP/2WT/2WX/2Wb/2Wf/2mn/2mj/2mr/22n/22r/2Wr/2Wn/2mv/22v/2mf/2mb/2GT/2GDzukfzuUbafRfaexb////eYXQTAAAAGHRSTlMAHazy6sR1D+3sWP59gIj+5kj+N+P+8vExUlyIAAAAAWJLR0RNgGggZQAAAAd0SU1FB+QDDQshOSsEIzMAAAFLSURBVHja7drZVsIwFIVhBOdZnOKAINXWeQAVZ1GcEN//eeCGq3PTNmGfc7G/F8i/krYryWqhQERERERENDRWLLk0xicmp0Yy/rRLbWZ2BAFFl8HcfPiAkstkIXiAy2hROyB4gdMucNoFOQK2tnd2c1laXgkRkHv8gfKqf0Blr1rLb807oLJfjzys+wYc+I0fRZ4Bh3E98eMVcHQcVxO1gJPTs/OLyyR4QJze1XWj6U0E3KR1e9cKQQTcg4mABzB7AY9gDLAX8AQmAhpgnAER8AwmAl7A7M0AA17BRMAbmAhog9l7Bt7BRMAHmL0ZUH8NGdAB4xKIgE8wLoG9APVPMfeEDFDfkKgfTtUD1A+nX2D2AtSvaHhP+A1m77b8B4wBIqAFZi+gCSYCEjB7Ab9gIqAGZm8Gun9QXRGw0fsH6m3y/0kiIiIiIhrqAxvdHvTMOppkAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTAzLTEzVDExOjMzOjU3KzAwOjAwvq9K8QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wMy0xM1QxMTozMzo1NyswMDowMM/y8k0AAAAASUVORK5CYII=')
   }
   
   table {
@@ -93,28 +106,192 @@
         //allFields.removeClass( "ui-state-error" );
       }
     });
+    addMessageOrFolderDialog.keypress(function(e) {
+      if( e.keyCode == $.ui.keyCode.ENTER ) {
+        $("#addMessageOrFolderDialog").parent().find('.ui-dialog-buttonpane button:first').click();
+        return false;
+      }
+    });
     
     //Can per page load actions
     //load saved levels & tiles
     loadSavedLevelsFromCache();
   });
   let globalSettings = new Settings();
+  let mainMenuMap = new Map();
+  
+  function renderTextItem(item){		
+    var ul = document.getElementById("ul-level-1");
+    var li = createItemLi();
+	li.classList.add("leaf-item");
+    li.appendChild(document.createTextNode(item));
+    ul.appendChild(li);
+  }
+  
+  function renderItems(item){	
+    switch(typeof(item)){
+      case 'object':
+		renderItem(item);
+        break;
+      case 'string':
+        renderTextItem(item)
+        break;
+	}
+  }
+  
+  function renderItem(item){
+    var ul = document.getElementById("ul-level-1");
+    var li = createItemLi(item);
+    li.appendChild(document.createTextNode(item.name));
+    ul.appendChild(li);
+	if (item.type && item.type==='folder'){
+		li.classList.add("folder-item");
+	}else{
+		li.classList.add("leaf-item");
+	}
+  }
   
   function loadSavedLevelsFromCache(){
     var localStorage = window.localStorage;
     var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
     levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
-      console.log(item);
-      var ul = document.getElementById("ul-level-1");
-      var li = document.createElement("li");
-      li.appendChild(document.createTextNode(item));
-      ul.appendChild(li);
+      mainMenuMap.set(item.name, item);
+	  renderItems(item);
     });
+  }
+  
+  function createItemLi(item){
+    var li = document.createElement("li");	
+    li.addEventListener('click', function() {
+      handleItemClick(li, item);
+    });
+    return li;
+  }
+  
+  function handleItemClick(liElement, item){
+	globalSettings.currentItem = item;
+	if(item.type && item.type == 'folder'){
+		globalSettings.parentItem = item;
+	}
+    if (globalSettings && globalSettings.adminMode){
+      handleItemEdit(liElement);
+    }else{
+      promptItem(liElement);
+	  if (item.type && item.type === 'folder'){
+		displayFolderMenu(item);
+	  }
+    }
+  }
+  
+  function displayFolderMenu(item){
+	//remove all li elements of ul and render new ones
+	//	new li elements have to be looked up in map for item.value	
+	$('#ul-level-1 li').each(function(){
+      $(this)[0].remove();
+    });
+	item && item.value && item.value.forEach(childItem => {
+      renderItems(childItem);
+    });	
+  }
+  
+  function promptItem(liElement){
+    try{
+    	var synth = window.speechSynthesis;
+    	synth.speak(new SpeechSynthesisUtterance(liElement.innerText));
+    }catch(e){
+      console.log(e);
+    }
+  }
+  
+  function handleItemEdit(liElement){
+    if (globalSettings) {
+      globalSettings.currentItemLiEle = liElement;
+    }
+    document.getElementById("item-edit-menu").style.display="block";
+    $("#item-edit-menu").menu();
+  }
+  
+  function editItemContents(){
+	document.getElementById("item-edit-menu").style.display="none";
+    displayFolderMenu(globalSettings.parentItem);
+  }
+  
+  function deleteItem(){
+    document.getElementById("item-edit-menu").style.display="none";
+	
+	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder' && 
+		globalSettings.currentItem && globalSettings.currentItem.name != globalSettings.parentItem.name){
+		globalSettings.parentItem.value.forEach((eachItem, index) => {
+			if (eachItem.name == globalSettings.currentItem.name){
+				globalSettings.parentItem.value.splice(index, 1);
+			}
+		});
+		mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
+	}else{
+		mainMenuMap.delete(globalSettings.currentItem.name);
+	}
+	$(globalSettings.currentItemLiEle).remove();
+	saveFromMap();
+  }
+  
+  function saveInteraction(){
+	/*var ul = document.getElementById("ul-level-1");
+	var li = createItemLi();
+	li.appendChild(document.createTextNode($("#name").val()));
+	ul.appendChild(li);*/	
+    
+	var newItem = {};
+	newItem.name = $("#name").val();
+	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message'
+	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';
+	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
+		var children = mainMenuMap.get(globalSettings.parentItem.name).value;
+		if (!children || !Array.isArray(children)){
+		  children = [];
+		}
+		children.push(newItem);
+		globalSettings.parentItem.value= children;
+		mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
+	}else{		
+		mainMenuMap.set(newItem.name, newItem);
+	}
+	saveFromMap();
+	renderItem(newItem);
+    $("#addMessageOrFolderDialog").dialog("close");
+	//onAddMsgFoldrDlgClose();
+  }
+  
+  function saveFromMap(){
+	var levelItems = [];
+	mainMenuMap.forEach(item => {
+		levelItems.push(item);
+	});
+	localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
+  }
+  
+  const InteractionType = Object.freeze({
+	"Message":1,
+	"Folder":2
+  })  
+	
+  function addFolderOrMessage(interactionType){
+	globalSettings.lastAction = interactionType;
+    $("#addMessageOrFolderDialog").dialog("open");
   }
   
   function onAddMsgFoldrDlgClose(){
 	$("#interactionTypes").dialog( "close" );
   }
+  
+  /*
+  (type: leaf,
+  name: xyz,
+  image: image base 64
+  parent: root)
+  (type: folder,
+name: text,
+value: ())
+  */
   
   function Settings(adminMode, menuId) {
     this.adminMode = adminMode;
@@ -285,29 +462,7 @@
 	$( "#interactionTypes" ).dialog();
   }
   
-  const InteractionType = Object.freeze({
-	"Message":1,
-	"Folder":2
-  })  
-	
-  function addFolderOrMessage(interactionType){
-	//addMessageOrFolderDialog.dialog("open");
-    $("#addMessageOrFolderDialog").dialog("open");
-  }
   
-  function saveInteraction(){
-	var ul = document.getElementById("ul-level-1");
-	var li = document.createElement("li");
-	li.appendChild(document.createTextNode($("#name").val()));
-	ul.appendChild(li);
-    var localStorage = window.localStorage;
-    var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
-    if (!levelItems || !Array.isArray(levelItems)){
-      levelItems = [];
-    }
-    levelItems.push($("#name").val());
-    localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
-  }
   
 </script>
 
@@ -346,6 +501,11 @@
     <td>Other</td>    
   </tr>
 </table-->
+
+<ul id="item-edit-menu" style="display:none; width: 150px;">
+  <li onclick="deleteItem()"><div>Delete</div></li>
+  <li onclick="editItemContents()"><div>Edit contents</div></li>
+</ul>
 
 <div id="pain-menu" style="display:none">
   <table>
