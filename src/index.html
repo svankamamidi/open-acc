@@ -3,12 +3,12 @@
 <style>  
   /* Create two equal columns that floats next to each other */
   .top-left-column {
-    flex: 80%;
+    flex: 75%;
     height: 5%;
   }
   
   .top-right-column {
-    flex: 17%;
+    flex: 20%;
     height: 5%;
   }
   .top-row {
@@ -17,6 +17,10 @@
   
   .addInteractionDiv {
 	width: 15%
+  }
+  
+  .backButtonDiv {
+    width: 15%
   }
   
   .interactionTypes a {
@@ -117,7 +121,78 @@
     //load saved levels & tiles
     loadSavedLevelsFromCache();
   });
+  
+    class TreeNode {
+  constructor(key, value = key, parent = null) {
+    this.key = key;
+    this.value = value;
+    this.parent = parent;
+    this.children = [];
+  }
+
+  get isLeaf() {
+    return this.children.length === 0;
+  }
+
+  get hasChildren() {
+    return !this.isLeaf;
+  }
+}
+
+class Tree {
+  constructor(key, value = key) {
+    this.root = new TreeNode(key, value);
+  }
+
+  *preOrderTraversal(node = this.root) {
+    yield node;
+    if (node.children.length) {
+      for (let child of node.children) {
+        yield* this.preOrderTraversal(child);
+      }
+    }
+  }
+
+  *postOrderTraversal(node = this.root) {
+    if (node.children.length) {
+      for (let child of node.children) {
+        yield* this.postOrderTraversal(child);
+      }
+    }
+    yield node;
+  }
+
+  insert(parentNodeKey, key, value = key) {
+    for (let node of this.preOrderTraversal()) {
+      if (node.key === parentNodeKey) {
+        node.children.push(new TreeNode(key, value, node));
+        return true;
+      }
+    }
+    return false;
+  }
+
+  remove(key) {
+    for (let node of this.preOrderTraversal()) {
+      const filtered = node.children.filter(c => c.key !== key);
+      if (filtered.length !== node.children.length) {
+        node.children = filtered;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  find(key) {
+    for (let node of this.preOrderTraversal()) {
+      if (node.key === key) return node;
+    }
+    return undefined;
+  }
+}
+  
   let globalSettings = new Settings();
+  const tree = new Tree(1, 'root');
   let mainMenuMap = new Map();
   
   function renderTextItem(item){		
@@ -151,13 +226,27 @@
 	}
   }
   
+  function loadGivenLevel(levelItems){
+
+    levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
+
+      mainMenuMap.set(item.value.name, item.value);
+
+	  renderItems(item.value);
+
+    });
+
+  }
+  
   function loadSavedLevelsFromCache(){
     var localStorage = window.localStorage;
     var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
     levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
-      mainMenuMap.set(item.name, item);
+      tree.insert(1, item.name + "1", item);
+	  mainMenuMap.set(item.name, item);
 	  renderItems(item);
     });
+	globalSettings.currentLevel = 1;
   }
   
   function createItemLi(item){
@@ -168,17 +257,18 @@
     return li;
   }
   
-  function handleItemClick(liElement, item){
-	globalSettings.currentItem = item;
+  function handleItemClick(liElement, item){	
 	if(item.type && item.type == 'folder'){
-		globalSettings.parentItem = item;
+		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item;
 	}
+	globalSettings.currentItem = item;
     if (globalSettings && globalSettings.adminMode){
       handleItemEdit(liElement);
     }else{
       promptItem(liElement);
 	  if (item.type && item.type === 'folder'){
 		displayFolderMenu(item);
+		globalSettings.currentLevel = globalSettings.currentLevel + 1;
 	  }
     }
   }
@@ -189,9 +279,30 @@
 	$('#ul-level-1 li').each(function(){
       $(this)[0].remove();
     });
+    document.getElementById("backButtonDiv").style.display="block";	
 	item && item.value && item.value.forEach(childItem => {
       renderItems(childItem);
+	  if (!tree.find(childItem.name + (globalSettings.currentLevel + 1))){
+		tree.insert(item.name, childItem.name + (globalSettings.currentLevel + 1), childItem);
+	  }
     });	
+  }
+  
+  function onBackButtonClick(){
+    document.getElementById("backButtonDiv").style.display="none";
+    $('#ul-level-1 li').each(function(){
+
+      $(this)[0].remove();
+
+    });
+    //globalSettings.currentItem = globalSettings.parentItem;
+	var lookUpKey = 1;
+	globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
+    if (globalSettings.parentItem && globalSettings.parentItem.parent && 
+			globalSettings.parentItem.parent != 'root'){
+		lookUpKey = globalSettings.parentItem.name + globalSettings.currentLevel;
+	}
+	loadGivenLevel(tree.find(lookUpKey).children);
   }
   
   function promptItem(liElement){
@@ -234,11 +345,7 @@
 	saveFromMap();
   }
   
-  function saveInteraction(){
-	/*var ul = document.getElementById("ul-level-1");
-	var li = createItemLi();
-	li.appendChild(document.createTextNode($("#name").val()));
-	ul.appendChild(li);*/	
+  function saveInteraction(){	
     
 	var newItem = {};
 	newItem.name = $("#name").val();
@@ -299,7 +406,7 @@ value: ())
     this.greeting = function() {
       alert('Hi! I\'m ' + this.name + '.');
     };
-  }
+  }  
   
   const handleSuccess = function(stream) {
     const saveButton = document.getElementById('save');
@@ -469,6 +576,9 @@ value: ())
 <div class="top-row">
   <div id="addInteractionDiv" class="addInteractionDiv" style="display:none">
 	<button id="addInteractionBtn" onclick="chooseInterationType()">Add</button>
+  </div>
+  <div id="backButtonDiv" class="backButtonDiv" style="display:none">
+	<a id="backButton" onclick="onBackButtonClick()">Back</a>
   </div>
   <div id="record-controls" style="display:none">
     <button id="record" onclick="startRecording()">Record</button>
