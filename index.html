@@ -1,0 +1,683 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<style>  
+  /* Create two equal columns that floats next to each other */
+  
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .top-left-column {
+    flex: 75%;
+    height: 5%;
+  }
+  
+  .top-right-column {
+    flex: 20%;
+    height: 5%;
+  }
+  .top-row {
+    display: flex;
+  }
+  
+  .addInteractionDiv {
+	width: 15%
+  }
+  
+  .backButtonDiv {
+    width: 15%
+  }
+  
+  .interactionTypes a {
+    color: #2196f3
+  }
+  
+  .ul-container {
+   	margin:0 auto;
+   	//background:yellow;
+   	text-align:center;
+   	overflow:auto;
+   	min-width:201px;
+   	max-width:901px;
+   	display:block;
+   	list-style:none;
+  }
+
+  .leaf-item {
+    font-weight:bold;
+   	background-color:#FDF2E9;
+   	border:1px solid #F0F3F4;
+   	box-sizing:border-box;
+   	float:left;
+   	height:100px;
+   	width:100px;
+   	margin:5px 3px;
+  }
+  
+  .folder-item {
+    font-weight:bold;
+   	background-color:#FDF2E9;
+   	border:1px solid #F0F3F4;
+   	box-sizing:border-box;
+   	float:left;
+   	height:100px;
+   	width:100px;
+   	margin:5px 3px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA6lBMVEUAAAD/uQD/uQD/uQD/uQD/uQD/uQD/uwD/uQD/uQD/uQD/uQD/ugD/uQD/ugD/1lr/0En/yjL/1ln/xzP/0En/11zominomij/uQD/01n/55//33//11//01r/56D/34D/12D/6KD/4IH/2GH/1Fr/1Vz/6KH/2GL/vRD/23T/vhL/xi7/1WH/5Zn/553/3Xf/5pr/4IX/2Wj/2GP/3nj/3XP/22z/2WP/2WT/2WX/2Wb/2Wf/2mn/2mj/2mr/22n/22r/2Wr/2Wn/2mv/22v/2mf/2mb/2GT/2GDzukfzuUbafRfaexb////eYXQTAAAAGHRSTlMAHazy6sR1D+3sWP59gIj+5kj+N+P+8vExUlyIAAAAAWJLR0RNgGggZQAAAAd0SU1FB+QDDQshOSsEIzMAAAFLSURBVHja7drZVsIwFIVhBOdZnOKAINXWeQAVZ1GcEN//eeCGq3PTNmGfc7G/F8i/krYryWqhQERERERENDRWLLk0xicmp0Yy/rRLbWZ2BAFFl8HcfPiAkstkIXiAy2hROyB4gdMucNoFOQK2tnd2c1laXgkRkHv8gfKqf0Blr1rLb807oLJfjzys+wYc+I0fRZ4Bh3E98eMVcHQcVxO1gJPTs/OLyyR4QJze1XWj6U0E3KR1e9cKQQTcg4mABzB7AY9gDLAX8AQmAhpgnAER8AwmAl7A7M0AA17BRMAbmAhog9l7Bt7BRMAHmL0ZUH8NGdAB4xKIgE8wLoG9APVPMfeEDFDfkKgfTtUD1A+nX2D2AtSvaHhP+A1m77b8B4wBIqAFZi+gCSYCEjB7Ab9gIqAGZm8Gun9QXRGw0fsH6m3y/0kiIiIiIhrqAxvdHvTMOppkAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTAzLTEzVDExOjMzOjU3KzAwOjAwvq9K8QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wMy0xM1QxMTozMzo1NyswMDowMM/y8k0AAAAASUVORK5CYII=')
+  }
+  
+  table {
+    font-family: arial, sans-serif;
+    font-size: 100%;
+    font-weight: bold;
+    border-spacing: 15px 8px;
+    border-collapse: separate;
+    border: 1px solid white;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #F0F3F4;
+    text-align: center;
+    padding: 12px;
+    background-color: #FDF2E9;
+    border-radius: 4px;
+  }
+  
+  td {
+	height: 15vw;
+    width: 15vw;
+  }
+
+  //tr:nth-child(even) {
+    //background-color: #dddddd;
+  //}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+  $( function() {
+	var name = $("#name");
+	var addMessageOrFolderDialog = $("#addMessageOrFolderDialog").dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Save": saveInteraction,
+        Cancel: function() {
+          addMessageOrFolderDialog.dialog( "close" );
+        }
+      },
+      close: function() {
+		onAddMsgFoldrDlgClose();
+        //form[ 0 ].reset();
+        //allFields.removeClass( "ui-state-error" );
+      }
+    });
+    addMessageOrFolderDialog.keypress(function(e) {
+      if( e.keyCode == $.ui.keyCode.ENTER ) {
+        $("#addMessageOrFolderDialog").parent().find('.ui-dialog-buttonpane button:first').click();
+        return false;
+      }
+    });
+    
+    //Can per page load actions
+    //load saved levels & tiles
+    loadSavedLevelsFromCache();
+  });
+  
+    class TreeNode {
+  constructor(key, value = key, parent = null) {
+    this.key = key;
+    this.value = value;
+    this.parent = parent;
+    this.children = [];
+  }
+
+  get isLeaf() {
+    return this.children.length === 0;
+  }
+
+  get hasChildren() {
+    return !this.isLeaf;
+  }
+}
+
+class Tree {
+  constructor(key, value = key) {
+    this.root = new TreeNode(key, value);
+  }
+
+  *preOrderTraversal(node = this.root) {
+    yield node;
+    if (node.children.length) {
+      for (let child of node.children) {
+        yield* this.preOrderTraversal(child);
+      }
+    }
+  }
+
+  *postOrderTraversal(node = this.root) {
+    if (node.children.length) {
+      for (let child of node.children) {
+        yield* this.postOrderTraversal(child);
+      }
+    }
+    yield node;
+  }
+
+  insert(parentNodeKey, key, value = key) {
+    for (let node of this.preOrderTraversal()) {
+      if (node.key === parentNodeKey) {
+        node.children.push(new TreeNode(key, value, node));
+        return true;
+      }
+    }
+    return false;
+  }
+
+  remove(key) {
+    for (let node of this.preOrderTraversal()) {
+      const filtered = node.children.filter(c => c.key !== key);
+      if (filtered.length !== node.children.length) {
+        node.children = filtered;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  find(key) {
+    for (let node of this.preOrderTraversal()) {
+      if (node.key === key) return node;
+    }
+    return undefined;
+  }
+}
+  
+  let globalSettings = new Settings();
+  const tree = new Tree(1, 'root');
+  let mainMenuMap = new Map();
+  
+  function renderTextItem(item){		
+    var ul = document.getElementById("ul-level-1");
+    var li = createItemLi();
+	li.classList.add("leaf-item");
+    li.appendChild(document.createTextNode(item));
+    ul.appendChild(li);
+  }
+  
+  function renderItems(item){	
+    switch(typeof(item)){
+      case 'object':
+		renderItem(item);
+        break;
+      case 'string':
+        renderTextItem(item)
+        break;
+	}
+  }
+  
+  function renderItem(item){
+    var ul = document.getElementById("ul-level-1");
+    var li = createItemLi(item);
+    li.appendChild(document.createTextNode(item.name));
+    ul.appendChild(li);
+	if (item.type && item.type==='folder'){
+		li.classList.add("folder-item");
+	}else{
+		li.classList.add("leaf-item");
+	}
+  }
+  
+  function loadGivenLevel(levelItems){
+
+    levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
+
+      mainMenuMap.set(item.value.name, item.value);
+
+	  renderItems(item.value);
+
+    });
+
+  }
+  
+  function loadSavedLevelsFromCache(){
+    var localStorage = window.localStorage;
+    var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
+    levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
+      tree.insert(1, item.name + "1", item);
+	  mainMenuMap.set(item.name, item);
+	  renderItems(item);
+    });
+	globalSettings.currentLevel = 1;
+  }
+  
+  function createItemLi(item){
+    var li = document.createElement("li");	
+    li.addEventListener('click', function() {
+      handleItemClick(li, item);
+    });
+    return li;
+  }
+  
+  function handleItemClick(liElement, item){	
+	if(item.type && item.type == 'folder'){
+		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item;
+	}
+	globalSettings.currentItem = item;
+    if (globalSettings && globalSettings.adminMode){
+      handleItemEdit(liElement);
+    }else{
+      promptItem(liElement);
+	  if (item.type && item.type === 'folder'){
+		displayFolderMenu(item);
+		globalSettings.currentLevel = globalSettings.currentLevel + 1;
+	  }
+    }
+  }
+  
+  function displayFolderMenu(item){
+	//remove all li elements of ul and render new ones
+	//	new li elements have to be looked up in map for item.value	
+	$('#ul-level-1 li').each(function(){
+      $(this)[0].remove();
+    });
+    document.getElementById("backButtonDiv").style.display="block";	
+	item && item.value && item.value.forEach(childItem => {
+      renderItems(childItem);
+	  if (!tree.find(childItem.name + (globalSettings.currentLevel + 1))){
+		tree.insert(item.name, childItem.name + (globalSettings.currentLevel + 1), childItem);
+	  }
+    });	
+  }
+  
+  function onBackButtonClick(){
+    document.getElementById("backButtonDiv").style.display="none";
+    $('#ul-level-1 li').each(function(){
+
+      $(this)[0].remove();
+
+    });
+    //globalSettings.currentItem = globalSettings.parentItem;
+	var lookUpKey = 1;
+	globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
+    if (globalSettings.parentItem && globalSettings.parentItem.parent && 
+			globalSettings.parentItem.parent != 'root'){
+		lookUpKey = globalSettings.parentItem.name + globalSettings.currentLevel;
+	}
+	loadGivenLevel(tree.find(lookUpKey).children);
+  }
+  
+  function promptItem(liElement){
+    try{
+    	var synth = window.speechSynthesis;
+    	synth.speak(new SpeechSynthesisUtterance(liElement.innerText));
+    }catch(e){
+      console.log(e);
+    }
+  }
+  
+  function handleItemEdit(liElement){
+    if (globalSettings) {
+      globalSettings.currentItemLiEle = liElement;
+    }
+    document.getElementById("item-edit-menu").style.display="block";
+    $("#item-edit-menu").menu();
+  }
+  
+  function editItemContents(){
+	document.getElementById("item-edit-menu").style.display="none";
+    displayFolderMenu(globalSettings.parentItem);
+  }
+  
+  function deleteItem(){
+    document.getElementById("item-edit-menu").style.display="none";
+	
+	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder' && 
+		globalSettings.currentItem && globalSettings.currentItem.name != globalSettings.parentItem.name){
+		globalSettings.parentItem.value.forEach((eachItem, index) => {
+			if (eachItem.name == globalSettings.currentItem.name){
+				globalSettings.parentItem.value.splice(index, 1);
+			}
+		});
+		mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
+	}else{
+		mainMenuMap.delete(globalSettings.currentItem.name);
+	}
+	$(globalSettings.currentItemLiEle).remove();
+	saveFromMap();
+  }
+  
+  function saveInteraction(){	
+    
+	var newItem = {};
+	newItem.name = $("#name").val();
+	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message'
+	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';
+	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
+		var children = mainMenuMap.get(globalSettings.parentItem.name).value;
+		if (!children || !Array.isArray(children)){
+		  children = [];
+		}
+		children.push(newItem);
+		globalSettings.parentItem.value= children;
+		mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
+	}else{		
+		mainMenuMap.set(newItem.name, newItem);
+	}
+	saveFromMap();
+	renderItem(newItem);
+    $("#addMessageOrFolderDialog").dialog("close");
+	//onAddMsgFoldrDlgClose();
+  }
+  
+  function saveFromMap(){
+	var levelItems = [];
+	mainMenuMap.forEach(item => {
+		levelItems.push(item);
+	});
+	localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
+  }
+  
+  const InteractionType = Object.freeze({
+	"Message":1,
+	"Folder":2
+  })  
+	
+  function addFolderOrMessage(interactionType){
+	globalSettings.lastAction = interactionType;
+    $("#addMessageOrFolderDialog").dialog("open");
+  }
+  
+  function onAddMsgFoldrDlgClose(){
+	$("#interactionTypes").dialog( "close" );
+  }
+  
+  /*
+  (type: leaf,
+  name: xyz,
+  image: image base 64
+  parent: root)
+  (type: folder,
+name: text,
+value: ())
+  */
+  
+  function Settings(adminMode, menuId) {
+    this.adminMode = adminMode;
+    this.menuId = menuId;
+    this.greeting = function() {
+      alert('Hi! I\'m ' + this.name + '.');
+    };
+  }  
+  
+  const handleSuccess = function(stream) {
+    const saveButton = document.getElementById('save');
+    
+    const options = {mimeType: 'audio/webm'};
+    const recordedChunks = [];
+    const mediaRecorder = new MediaRecorder(stream, options);
+
+    mediaRecorder.addEventListener('dataavailable', function(e) {
+      if (e.data.size > 0) recordedChunks.push(e.data);
+    });
+
+    mediaRecorder.addEventListener('stop', async function() {
+      globalSettings.voice = new Blob(recordedChunks);
+      const base64Voice = await toBase64(globalSettings.voice);
+      window.localStorage.setItem(globalSettings.menuId.toLowerCase(), base64Voice);
+      /*toBase64(URL.createObjectURL(new Blob(recordedChunks))).then(base64VoiceFile => {
+        localStorage.setItem(globalSettings.menuId.toLowerCase(), base64VoiceFile);
+        console.log(localStorage.getItem(globalSettings.menuId.toLowerCase()));        	
+      });*/
+      //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+      //downloadLink.download = 'acetest.wav';
+    });
+
+    saveButton.addEventListener('click', function() {
+      mediaRecorder.stop();
+    });
+
+    mediaRecorder.start();
+  };
+  
+  function startRecording(){
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(handleSuccess);
+  }
+  
+  function getAudioFile(submenuId){
+    var audioFile;
+    switch(submenuId){
+      case 'food-menu': audioFile = 'https://drive.google.com/file/d/1HnqTHf1tbl-iWUbnChaYdrCHyBTirOzD/view?usp=sharing';
+    }
+    return audioFile;
+  }
+  
+  function getAudioFileAsBase64(submenuId){    
+    var localStorage = window.localStorage;
+    var audioBase64 = localStorage.getItem(submenuId);
+    /*switch(submenuId){
+      case 'pain-menu': audioBase64 = localStorage.getItem();break;
+      case 'food-menu': audioBase64 = 
+    }*/
+    //return 'data:audio/wav;base64,' + audioBase64;
+    return audioBase64;
+  }
+  
+  function showSubMenu(submenuId){
+    document.getElementById("main-menu").style.display="none";
+    document.getElementById(submenuId).style.display="block";
+    document.getElementById("back").style.display="block";
+    //var audio = new Audio(getAudioFileAsBase64(submenuId.toLowerCase()));    
+    //audio.play();
+    handleMenuDisplay(submenuId);
+  }
+  
+  function showMainMenu(menuId){
+    document.getElementById("main-menu").style.display="table";
+    document.getElementById("food-menu").style.display="none";
+    document.getElementById("pain-menu").style.display="none";
+    document.getElementById("back").style.display="none";
+  }
+  
+  function showText(val){
+    handleMenuDisplay(val.innerText);
+    //alert(val.innerHTML);
+  }
+  
+  async function playRecordedAudio(param){
+    try{
+      var menuId = param ? param : globalSettings.menuId.toLowerCase();
+      var localStorage = window.localStorage;
+      const base64Data = localStorage.getItem(menuId);
+      const base64Response = await fetch(base64Data);
+      var audio = new Audio(URL.createObjectURL(dataURItoBlob(base64Data)/*new Blob(localStorage.getItem('food'))*/));
+      //alert(globalSettings.menuId);
+      audio.play();
+    }catch(e){
+      console.log(e);
+    }
+  }
+  
+  function handleMenuDisplay(menuId){
+    globalSettings.menuId = menuId;
+    if (globalSettings.adminMode){
+    	document.getElementById("record-controls").style.display="table";
+    }else{
+      	
+    }    
+    playRecordedAudio();
+  }
+  
+  function showSettings(){
+    globalSettings.adminMode = !globalSettings.adminMode;
+	if (globalSettings.adminMode){
+		document.getElementById("addInteractionDiv").style.display="table";
+	}else{
+		document.getElementById("addInteractionDiv").style.display="none";
+	}
+    //alert('Settings enabled');
+	//$( "#aac_settings" ).dialog();
+  }
+  
+  toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+  
+  async function voiceFilesUploaded(event){
+	var localStorage = window.localStorage;
+    document.querySelector('#upload-files').files && Array.from(document.querySelector('#upload-files').files).forEach(voiceFile => {
+      toBase64(voiceFile).then(base64VoiceFile => {
+        localStorage.setItem(voiceFile.name.replaceAll('.m4a','').toLowerCase(), base64VoiceFile);
+        console.log(localStorage.getItem(voiceFile.name.replaceAll('.m4a','').toLowerCase()));        	
+      });      
+    });
+    
+  }
+  
+  function closeVoiceControls(){
+    document.getElementById("record-controls").style.display="none";
+  }
+  
+  function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    var ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    var blob = new Blob([ab], {type: mimeString});
+    return blob;
+
+  }
+  
+  function chooseInterationType(){
+	$( "#interactionTypes" ).dialog();
+  }
+  
+  
+  
+</script>
+
+<div class="top-row">
+  <div id="addInteractionDiv" class="addInteractionDiv" style="display:none">
+	<button id="addInteractionBtn" onclick="chooseInterationType()">Add</button>
+  </div>
+  <div id="backButtonDiv" class="backButtonDiv" style="display:none">
+	<a id="backButton" onclick="onBackButtonClick()">Back</a>
+  </div>
+  <div id="record-controls" style="display:none">
+    <button id="record" onclick="startRecording()">Record</button>
+    <button id="stop">Stop</button>
+    <button id="play" onclick="playRecordedAudio()">Play</button>
+    <button id="save">Save</button>
+    <button id="close-record-controls" onclick="closeVoiceControls()">Close</button>
+  </div>
+  <div  class="top-left-column top-left">
+      <a id="back" style="display:none" href="#" onclick="showMainMenu('main-menu')">Back</a>
+  </div>
+  <div id="aac-settings-icon" class="top-right-column top-right">
+      <a href="#" onclick="showSettings()">Settings</a>
+  </div>
+</div>  
+
+<div id="level-1">
+	<ul id="ul-level-1" class="ul-container">
+	</ul>
+</div>
+<!--table id="main-menu">
+  <tr>
+    <td onclick="showSubMenu('food-menu')"><div class="cell-around"><div class="cell-title">Food</div><div class="cell-picture"><img alt="" border="0" width="200" data-original-height="204" data-original-width="247" src="https://blogger.googleusercontent.com/img/a/AVvXsEhWcRPwh_buY3hEHuweexy12QtH7AXpmrAAKwiRpjIu8EtHs9UYo-c3_YOtpPlExCGkLNitDxTs6Cgl9XlaHWBw7WGzHVU5jdfMn6UWU_MpGyLr3-gqm6gSwV7GKTKFBDqqFA3C9of7XUss5RSPzw0osWhJJFjSlspTFt7jz7ZsbSugJLKDRbHonK3W=s200"/></div></div></td>
+    <td><a href="#" onclick="showSubMenu('pain-menu')">Pain</a></td>
+    <td>Toy</td>
+  </tr>
+  <tr>
+    <td>Cloths</td>
+    <td>Bed sheet</td>
+    <td>Other</td>    
+  </tr>
+</table-->
+
+<ul id="item-edit-menu" style="display:none; width: 150px;">
+  <li onclick="deleteItem()"><div>Delete</div></li>
+  <li onclick="editItemContents()"><div>Edit contents</div></li>
+</ul>
+
+<div id="pain-menu" style="display:none">
+  <table>
+    <tr>
+      <td><a href="#" onclick="showText(this)">Head</a></td>
+      <td><a href="#" onclick="showText(this)">Forehead</a></td>
+      <td><a href="#" onclick="showText(this)">Stomach</a></td>
+      <td><a href="#" onclick="showText(this)">Left eye</a></td>
+    </tr>
+    <tr>         
+      <td><a href="#" onclick="showText(this)">Right eye</a></td>
+      <td><a href="#" onclick="showText(this)">Left ear</a></td>
+      <td><a href="#" onclick="showText(this)">Right ear</a></td>
+      <td><a href="#" onclick="showText(this)">Front teeth</a></td>
+    </tr>
+    <tr>
+      <td><a href="#" onclick="showText(this)">Left side teeth</a></td>
+      <td><a href="#" onclick="showText(this)">Right side teeth</a></td>
+      <td><a href="#" onclick="showText(this)">Other pain</a></td>
+    </tr>
+  </table>
+</div>
+
+<div id="food-menu" style="display:none">
+  <table>
+    <tr>
+      <td><a href="#" onclick="showText(this)">Chips</a></td>
+      <td><a href="#" onclick="showText(this)">Samosa</a></td>
+      <td><a href="#" onclick="showText(this)">Chocolate</a></td>
+    </tr>
+    <tr>   
+      <td><a href="#" onclick="showText(this)">Muruku</a></td>
+      <td><a href="#" onclick="showText(this)">Mixture</a></td>    <td><a href="#" onclick="showText(this)">Other</a></td>
+    </tr>
+  </table>
+</div>
+
+<div id='addMessageOrFolderDialog' style="display:none">
+	<!--same div for both folder or message, in either case, should be able to 
+		enter name, record voice, set/upload picture-->
+	<form>
+		<fieldset>
+			<label for="name">Name</label>
+			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+		</fieldset>
+	</form>
+</div>
+
+<div id='interactionTypes' title="Add" class="interactionTypes" style="display:none">
+  <a href="#" onclick="addFolderOrMessage(InteractionType.Message)">Add message</a><p/>
+  <a href="#" onclick="addFolderOrMessage(InteractionType.Folder)">Add folder</a>
+</div>
+
+<div id='aac_settings' style="display:none">
+  <label for="upload-files">Select voice files to load:</label>
+  <input type="file" multiple=true id="upload-files" onchange='voiceFilesUploaded(event)'/>
+</div>
