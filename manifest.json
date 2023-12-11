@@ -2,7 +2,7 @@
   "name": "My AAC",
   "icons": [
     {
-      "src": "icons/logo.png",
+      "src": "icons/aac.png",
       "type": "image/png",
       "sizes": "512x512"
     }
