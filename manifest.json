@@ -1,0 +1,10 @@
+{
+  "name": "My AAC",
+  "icons": [
+    {
+      "src": "icons/logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
