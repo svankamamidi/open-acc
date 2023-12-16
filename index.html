@@ -377,8 +377,9 @@ class Tree {
 	var newItem = {};
 	newItem.name = $("#name").val();
 	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message';
+	var picUploadPromise;
 	document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
-          toBase64(pictureFile).then(base64VoiceFile => {
+          picUploadPromise = toBase64(pictureFile).then(base64VoiceFile => {
             newItem.image = base64VoiceFile;
             console.log(base64VoiceFile);        	
           });      
@@ -395,10 +396,12 @@ class Tree {
 	}else{		
 		mainMenuMap.set(newItem.name, newItem);
 	}
-	saveFromMap();
-	renderItem(newItem);
-    $("#addMessageOrFolderDialog").dialog("close");
-	//onAddMsgFoldrDlgClose();
+	if (!picUploadPromise || picUploadPromise.then()){
+	  saveFromMap();
+	  renderItem(newItem);
+          $("#addMessageOrFolderDialog").dialog("close");
+	  //onAddMsgFoldrDlgClose();
+	}
   }
   
   function saveFromMap(){
