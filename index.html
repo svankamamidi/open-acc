@@ -387,7 +387,7 @@ class Tree {
           picUploadPromise = toBase64(pictureFile).then(base64VoiceFile => {
             return base64VoiceFile;
             console.log(base64VoiceFile);
-	    document.querySelector('#uploadItemPhoto').value='';
+	    document.querySelector('#uploadItemPhoto').value = '';
           });      
         });
 	if (!picUploadPromise){
@@ -417,6 +417,7 @@ class Tree {
 	  }
 	  saveFromMap();
 	  renderItem(newItem);
+	  document.querySelector('#uploadItemPhoto').value = '';
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
 	});
