@@ -372,36 +372,45 @@ class Tree {
 	$(globalSettings.currentItemLiEle).remove();
 	saveFromMap();
   }
-  
-  async function saveInteraction(){	    
-	var newItem = {};
-	newItem.name = $("#name").val();
-	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message';
-	var picUploadPromise;
+
+  function fetchPicBase64(){
+  	var picUploadPromise;
 	document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
           picUploadPromise = toBase64(pictureFile).then(base64VoiceFile => {
-            newItem.image = base64VoiceFile;
+            return base64VoiceFile;
             console.log(base64VoiceFile);        	
           });      
         });
-	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';
-	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
-		var children = mainMenuMap.get(globalSettings.parentItem.name).value;
-		if (!children || !Array.isArray(children)){
-		  children = [];
-		}
-		children.push(newItem);
-		globalSettings.parentItem.value= children;
-		mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
-	}else{		
-		mainMenuMap.set(newItem.name, newItem);
+	if (!picUploadPromise){
+	  picUploadPromise = Promise.resolve("No picture");
 	}
-	if (!picUploadPromise || await picUploadPromise){
+	return picUploadPromise;
+  }
+	
+  function saveInteraction(){	    
+	var newItem = {};
+	newItem.name = $("#name").val();
+	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message';
+	  
+	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';	
+	return fetchPicBase64.then((picBase64) => {
+	  newItem.image = picBase64;
+	  if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
+	    var children = mainMenuMap.get(globalSettings.parentItem.name).value;
+	    if (!children || !Array.isArray(children)){
+	      children = [];
+	    }
+	    children.push(newItem);
+	    globalSettings.parentItem.value= children;
+	    mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
+	  }else{		
+	    mainMenuMap.set(newItem.name, newItem);
+	  }
 	  saveFromMap();
 	  renderItem(newItem);
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
-	}
+	});
   }
   
   function saveFromMap(){
