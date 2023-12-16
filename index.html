@@ -373,11 +373,16 @@ class Tree {
 	saveFromMap();
   }
   
-  function saveInteraction(){	
-    
+  function saveInteraction(){	    
 	var newItem = {};
 	newItem.name = $("#name").val();
-	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message'
+	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message';
+	document.querySelector('#upload-files').files && Array.from(document.querySelector('#upload-files').files).forEach(voiceFile => {
+          toBase64(voiceFile).then(base64VoiceFile => {
+            newItem.image = base64VoiceFile;
+            console.log(base64VoiceFile);        	
+          });      
+        });
 	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';
 	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
 		var children = mainMenuMap.get(globalSettings.parentItem.name).value;
@@ -606,8 +611,7 @@ value: ())
   
   function readWords(){
 	promptItem(document.getElementById("textareaEle").value);
-  }
-  
+  }  
 </script>
 
 <div class="top-row">
@@ -679,7 +683,7 @@ value: ())
 			<label for="name">Name</label>
 			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px">
 			<label for="itemPhoto">Picture</label>
-			<img name="itemPhoto" /><button name="uploadPhoto" style="margin-left: 10px">Browse</button> 
+			<img name="itemPhoto" /><input type="file" multiple=true id="uploadItemPhoto" onchange='uploadPicture(event)' style="margin-left: 10px">Browse</input> 
 			<!-- Allow form submission with keyboard without duplicating the dialog button -->
 			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 		</fieldset>
