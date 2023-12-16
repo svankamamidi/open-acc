@@ -219,7 +219,11 @@ class Tree {
     var ul = document.getElementById("ul-level-1");
     var li = createItemLi();
 	li.classList.add("leaf-item");
-    li.appendChild(document.createTextNode(item));
+    var liElement = document.createTextNode(item);
+    if (item.image && item.image !== "No picture"){
+      liElement.style.backgroundImage = "url(item.image)"
+    }
+    li.appendChild(liElement);
     ul.appendChild(li);
   }
   
