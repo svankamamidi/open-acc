@@ -241,7 +241,11 @@ class Tree {
   function renderItem(item){
     var ul = document.getElementById("ul-level-1");
     var li = createItemLi(item);
-    li.appendChild(document.createTextNode(item.name));
+    var liElement = document.createTextNode(item.name);
+    if (item.image && item.image !== "No picture"){
+      liElement.style.backgroundImage = "url(item.image)"
+    }
+    li.appendChild(liElement);	  
     ul.appendChild(li);
 	if (item.type && item.type==='folder'){
 		li.classList.add("folder-item");
