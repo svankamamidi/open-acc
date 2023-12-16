@@ -393,7 +393,7 @@ class Tree {
 	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message';
 	  
 	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';	
-	return fetchPicBase64.then((picBase64) => {
+	return fetchPicBase64().then((picBase64) => {
 	  newItem.image = picBase64;
 	  if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
 	    var children = mainMenuMap.get(globalSettings.parentItem.name).value;
