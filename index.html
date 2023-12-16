@@ -373,7 +373,7 @@ class Tree {
 	saveFromMap();
   }
   
-  function saveInteraction(){	    
+  async function saveInteraction(){	    
 	var newItem = {};
 	newItem.name = $("#name").val();
 	newItem.type = globalSettings.lastAction == InteractionType.Folder ? 'folder' : 'message';
@@ -396,7 +396,7 @@ class Tree {
 	}else{		
 		mainMenuMap.set(newItem.name, newItem);
 	}
-	if (!picUploadPromise || picUploadPromise.then()){
+	if (!picUploadPromise || await picUploadPromise){
 	  saveFromMap();
 	  renderItem(newItem);
           $("#addMessageOrFolderDialog").dialog("close");
