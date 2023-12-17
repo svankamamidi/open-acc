@@ -7,4 +7,4 @@ Augmentative and alternative communication tooling
 
    Demo site (alternate) https://svankamamidi.github.io/open-aac2/
   
-Demo video https://youtu.be/o_fjUAwXDIM
+Demo video https://youtu.be/dJG7cj7AAws
