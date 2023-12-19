@@ -573,8 +573,10 @@ value: ())
     globalSettings.adminMode = !globalSettings.adminMode;
 	if (globalSettings.adminMode){
 		document.getElementById("addInteractionDiv").style.display="table";
+		document.getElementById("footer-level-1").style.display="table";
 	}else{
 		document.getElementById("addInteractionDiv").style.display="none";
+		document.getElementById("footer-level-1").style.display="none";
 	}
     //alert('Settings enabled');
 	//$( "#aac_settings" ).dialog();
@@ -681,6 +683,11 @@ value: ())
 	</div>
 	<ul id="ul-level-1" class="ul-container">
 	</ul>
+</div>
+
+<!-- Footer -->
+<div id="footer-level-1" style="display:none">
+  <a href="https://youtu.be/fJvelltfSwo">Demo video</a>	
 </div>
 
 <!--table id="main-menu">
