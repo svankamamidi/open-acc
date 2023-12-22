@@ -128,7 +128,10 @@
         }
       },
       close: function() {
-		onAddMsgFoldrDlgClose();
+	document.querySelector('#uploadItemPhoto').value = '';
+	var image = document.getElementById('itemPhoto');
+	image.style.visibility = 'hidden';
+	onAddMsgFoldrDlgClose();
         //form[ 0 ].reset();
         //allFields.removeClass( "ui-state-error" );
       }
@@ -425,7 +428,7 @@ class Tree {
 	  renderItem(newItem);
 	  document.querySelector('#uploadItemPhoto').value = '';
 	  var image = document.getElementById('itemPhoto');
-	  image.visibility = "hidden";
+	  image.style.visibility = "hidden";
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
 	});
@@ -652,7 +655,7 @@ value: ())
   function displayPicture(){
     document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
       var image = document.querySelector('#itemPhoto');
-      image.visibility = "visible";
+      image.style.visibility = "visible";
       image.src = URL.createObjectURL(pictureFile);
     });
   }
