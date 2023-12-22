@@ -643,6 +643,10 @@ value: ())
   function readWords(){
 	promptItem(document.getElementById("textareaEle").value);
   }  
+
+  function displayPicture(){
+    debugger;	  
+  }
 </script>
 
 <div class="top-row">
@@ -709,9 +713,6 @@ value: ())
   <li onclick="editItemContents()"><div>Edit contents</div></li>
 </ul>
 
-
-
-
 <div id='addMessageOrFolderDialog' style="display:none">
 	<!--same div for both folder or message, in either case, should be able to 
 		enter name, record voice, set/upload picture-->
@@ -721,7 +722,7 @@ value: ())
 			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px">
 			<div style="display: flex">
 			  <label for="itemPhoto">Picture</label>
-			  <input type="file" id="uploadItemPhoto" style="margin-left: 10px"/>
+			  <input type="file" id="uploadItemPhoto" style="margin-left: 10px" onchange="displayPicture()"/>
 			</div>
 			<img name="itemPhoto" />
 			<!-- Allow form submission with keyboard without duplicating the dialog button -->
