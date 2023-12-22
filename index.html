@@ -645,7 +645,10 @@ value: ())
   }  
 
   function displayPicture(){
-    debugger;	  
+    document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
+      var image = document.querySelector('#itemPhoto');
+      image.src = URL.createObjectURL(pictureFile);
+    });
   }
 </script>
 
