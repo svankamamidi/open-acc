@@ -123,7 +123,7 @@
         Cancel: function() {
 	  document.querySelector('#uploadItemPhoto').value = '';
 	  var image = document.getElementById('itemPhoto');
-	  image.parentNode.removeChild(image);
+	  image.style.visibility = 'hidden';
           addMessageOrFolderDialog.dialog( "close" );
         }
       },
@@ -425,7 +425,7 @@ class Tree {
 	  renderItem(newItem);
 	  document.querySelector('#uploadItemPhoto').value = '';
 	  var image = document.getElementById('itemPhoto');
-	  image.parentNode.removeChild(image);
+	  image.visibility = "hidden";
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
 	});
@@ -652,10 +652,7 @@ value: ())
   function displayPicture(){
     document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
       var image = document.querySelector('#itemPhoto');
-      if (!image){
-        image = document.createElement("img");
-	image.setAttribute("id", "itemPhoto");
-      }
+      image.visibility = "visible";
       image.src = URL.createObjectURL(pictureFile);
     });
   }
