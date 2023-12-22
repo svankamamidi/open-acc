@@ -121,6 +121,7 @@
       buttons: {
         "Save": saveInteraction,
         Cancel: function() {
+	  document.querySelector('#itemPhoto').src = '';
           addMessageOrFolderDialog.dialog( "close" );
         }
       },
@@ -421,6 +422,7 @@ class Tree {
 	  saveFromMap();
 	  renderItem(newItem);
 	  document.querySelector('#uploadItemPhoto').value = '';
+	  document.querySelector('#itemPhoto').src = '';
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
 	});
