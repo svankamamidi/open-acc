@@ -122,7 +122,7 @@
         "Save": saveInteraction,
         Cancel: function() {
 	  document.querySelector('#uploadItemPhoto').value = '';
-	  var image = document.getElementById('#itemPhoto');
+	  var image = document.getElementById('itemPhoto');
 	  image.parentNode.removeChild(image);
           addMessageOrFolderDialog.dialog( "close" );
         }
@@ -424,7 +424,7 @@ class Tree {
 	  saveFromMap();
 	  renderItem(newItem);
 	  document.querySelector('#uploadItemPhoto').value = '';
-	  var image = document.getElementById('#itemPhoto');
+	  var image = document.getElementById('itemPhoto');
 	  image.parentNode.removeChild(image);
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
