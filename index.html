@@ -121,7 +121,9 @@
       buttons: {
         "Save": saveInteraction,
         Cancel: function() {
-	  document.querySelector('#itemPhoto').src = '';
+	  document.querySelector('#uploadItemPhoto').value = '';
+	  var image = document.getElementById('#itemPhoto');
+	  image.parentNode.removeChild(image);
           addMessageOrFolderDialog.dialog( "close" );
         }
       },
@@ -422,7 +424,8 @@ class Tree {
 	  saveFromMap();
 	  renderItem(newItem);
 	  document.querySelector('#uploadItemPhoto').value = '';
-	  document.querySelector('#itemPhoto').src = '';
+	  var image = document.getElementById('#itemPhoto');
+	  image.parentNode.removeChild(image);
           $("#addMessageOrFolderDialog").dialog("close");
 	  //onAddMsgFoldrDlgClose();
 	});
