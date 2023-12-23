@@ -468,7 +468,7 @@ class Tree {
   function saveFromTree(){
     var startNode = tree.root;
     var levelItems = [];
-    startNode && startNode.children.forEach({element =>
+    startNode && startNode.children.forEach(element => {
       array.push(element.value);
     });
     localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
