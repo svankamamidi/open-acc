@@ -334,20 +334,29 @@ class Tree {
   }
   
   function onBackButtonClick(){
-    document.getElementById("backButtonDiv").style.display="none";
+    if (globalSettings && globalSettings.currentLevel == 2){
+      document.getElementById("backButtonDiv").style.display="none";
+    }
     $('#ul-level-1 li').each(function(){
-
       $(this)[0].remove();
-
     });
-    //globalSettings.currentItem = globalSettings.parentItem;
-	var lookUpKey = 1;
-	globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
-    if (globalSettings.parentItem && globalSettings.parentItem.parent && 
+    
+    globalSettings.currentItem = globalSettings.parentItem;
+    globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
+    var item = globalSettings.currentItem;
+    item && item.value && item.value.forEach(childItem => {
+      renderItems(childItem);
+      if (!tree.find(childItem.name + (globalSettings.currentLevel + 1))){
+        tree.insert(item.name, childItem.name + (globalSettings.currentLevel + 1), childItem);
+      }
+    });
+    
+    //var lookUpKey = 1;
+    /*if (globalSettings.parentItem && globalSettings.parentItem.parent && 
 			globalSettings.parentItem.parent != 'root'){
 		lookUpKey = globalSettings.parentItem.name + globalSettings.currentLevel;
 	}
-	loadGivenLevel(tree.find(lookUpKey).children);
+	loadGivenLevel(tree.find(lookUpKey).children);*/
   }
   
   function promptItem(words){
