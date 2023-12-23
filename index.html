@@ -296,7 +296,7 @@ class Tree {
   
   function handleItemClick(liElement, item){	
 	if(item.type && item.type == 'folder'){
-		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item;
+		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item.parent;
 	}
 	globalSettings.currentItem = item;
     if (globalSettings && globalSettings.adminMode){
