@@ -403,7 +403,8 @@ class Tree {
   
   function deleteItem(){
     document.getElementById("item-edit-menu").style.display="none";
-	
+    tree.remove(globalSettings.currentItem.name + globalSettings.currentLevel);
+	/*
 	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder' && 
 		globalSettings.currentItem && globalSettings.currentItem.name != globalSettings.parentItem.name){
 		globalSettings.parentItem.value.forEach((eachItem, index) => {
@@ -414,9 +415,10 @@ class Tree {
 		mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
 	}else{
 		mainMenuMap.delete(globalSettings.currentItem.name);
-	}
+	}*/
 	$(globalSettings.currentItemLiEle).remove();
-	saveFromMap();
+	//saveFromMap();
+	saveFromTree();  
   }
 
   function fetchPicBase64(){
@@ -462,7 +464,16 @@ class Tree {
 	  //onAddMsgFoldrDlgClose();
 	});
   }
-  
+
+  function saveFromTree(){
+    var startNode = tree.root;
+    var levelItems = [];
+    startNode && startNode.children.forEach({element =>
+      array.push(element.value);
+    });
+    localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
+  }
+	
   function saveFromMap(){
 	var levelItems = [];
 	mainMenuMap.forEach(item => {
