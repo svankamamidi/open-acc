@@ -279,6 +279,7 @@ class Tree {
   
   function loadSavedLevelsFromCache(){
     var localStorage = window.localStorage;
+    tree = new Tree(1, 'root');
     var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
     levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
       tree.insert(1, item.name + "1", item);
