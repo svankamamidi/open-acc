@@ -293,9 +293,9 @@ class Tree {
     var localLevel = level++;
     startNode.value && startNode.value.forEach(item => {
       if (item.type === 'message'){
-        tree.insert(startNode.name, item.name + localLevel, item);	
+        tree.insert(startNode.name + level, item.name + localLevel, item);	
       }else if (item.type === 'folder'){
-	tree.insert(startNode.name, item.name + localLevel, item);
+	tree.insert(startNode.name + level, item.name + localLevel, item);
 	traverseStoredTreeAndCreateNodes(item, startNode, localLevel);
       }
     })
