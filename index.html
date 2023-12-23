@@ -469,9 +469,19 @@ class Tree {
     var startNode = tree.root;
     var levelItems = [];
     startNode && startNode.children.forEach(element => {
-      array.push(element.value);
+      correctTheTree(element);
+      levelItems.push(element.value);
     });
     localStorage.setItem("ul-level-1", JSON.stringify(levelItems));
+  }
+
+  function correctTheTree(startNode){
+    var array = [];
+    startNode.children && startNode.children.forEach(element =>{
+	    array.push(element.value);
+	    correctTheTree(element);
+    })
+    startNode.value = array;
   }
 	
   function saveFromMap(){
