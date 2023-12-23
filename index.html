@@ -340,16 +340,21 @@ class Tree {
     $('#ul-level-1 li').each(function(){
       $(this)[0].remove();
     });
-    
-    globalSettings.currentItem = globalSettings.parentItem;
+
     globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
-    var item = globalSettings.currentItem;
-    item && item.value && item.value.forEach(childItem => {
-      renderItems(childItem);
-      if (!tree.find(childItem.name + (globalSettings.currentLevel + 1))){
-        tree.insert(item.name, childItem.name + (globalSettings.currentLevel + 1), childItem);
-      }
-    });
+    globalSettings.currentItem = globalSettings.parentItem;
+    globalSettings.parentItem = globalSettings.currentItem.parent;
+    if (globalSettings.currentItem === 'root'){
+      loadSavedLevelsFromCache();
+    }else{
+      var item = globalSettings.currentItem;
+      item && item.value && item.value.forEach(childItem => {
+        renderItems(childItem);
+        if (!tree.find(childItem.name + (globalSettings.currentLevel + 1))){
+	  tree.insert(item.name, childItem.name + (globalSettings.currentLevel + 1), childItem);
+        }
+      });
+    }
     
     //var lookUpKey = 1;
     /*if (globalSettings.parentItem && globalSettings.parentItem.parent && 
