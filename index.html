@@ -477,11 +477,11 @@ class Tree {
 
   function correctTheTree(startNode){
     var array = [];
-    startNode.children && startNode.children.forEach(element =>{
-	    array.push(element.value);
+    startNode.children && startNode.children.forEach(element =>{	    
 	    correctTheTree(element);
+	    array.push(element.value);
     })
-    startNode.value = array;
+    startNode.value.value = array;
   }
 	
   function saveFromMap(){
