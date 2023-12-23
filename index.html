@@ -220,6 +220,8 @@ class Tree {
   let globalSettings = new Settings();
   const tree = new Tree(1, 'root');
   let mainMenuMap = new Map();
+  let ROOT = {};
+  ROOT.name = 'root';
   
   function renderTextItem(item){		
     var ul = document.getElementById("ul-level-1");
@@ -280,10 +282,23 @@ class Tree {
     var levelItems = localStorage.getItem("ul-level-1") && JSON.parse(localStorage.getItem("ul-level-1"));
     levelItems && Array.isArray(levelItems) && levelItems.forEach(item => {
       tree.insert(1, item.name + "1", item);
-	  mainMenuMap.set(item.name, item);
-	  renderItems(item);
+      traverseStoredTreeAndCreateNodes(item, ROOT, 1);
+      mainMenuMap.set(item.name, item);
+      renderItems(item);
     });
 	globalSettings.currentLevel = 1;
+  }
+
+  function traverseStoredTreeAndCreateNodes(startNode, parentNode, level){
+    var localLevel = level++;
+    startNode.value.forEach(item => {
+      if (item.type === 'message'){
+        tree.insert(parentNode.name, item.name + localLevel, item);	
+      }else if (item.type === 'folder'){
+	tree.insert(parentNode.name, item.name + localLevel, item);
+	traverseStoredTreeAndCreateNodes(item, startNode, localLevel);
+      }
+    })
   }
   
   function createItemLi(item){
