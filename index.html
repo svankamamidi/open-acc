@@ -313,6 +313,9 @@ class Tree {
   function handleItemClick(liElement, item){	
 	if(item.type && item.type == 'folder'){
 		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item.parent;
+		globalSettings.currentFolder = globalSettings.parentItem;
+	}else{
+		globalSettings.currentFolder = globalSettings.parentItem;
 	}
 	globalSettings.currentItem = item;
     if (globalSettings && globalSettings.adminMode){
@@ -444,20 +447,15 @@ class Tree {
 	  
 	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';	
 	return fetchPicBase64().then((picBase64) => {
-	  newItem.image = picBase64;
-	  /*if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
-	    var children = mainMenuMap.get(globalSettings.parentItem.name).value;
-	    if (!children || !Array.isArray(children)){
-	      children = [];
-	    }
-	    children.push(newItem);
-	    globalSettings.parentItem.value= children;
-	    mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
-	  }else{		
-	    mainMenuMap.set(newItem.name, newItem);
-	  }*/
-	  var parentLevel = globalSettings.currentLevel - 1;	
-	  tree.insert(globalSettings.currentItem.name + parentLevel, newItem.name + globalSettings.currentLevel, newItem);
+	  newItem.image = picBase64;	  
+	  var parentLevel = globalSettings.currentLevel - 1;
+	  var parentForTree;
+	  if (!globalSettings.currentFolder || !globalSettings.currentFolder.name || globalSettings.currentFolder.name === 'root'){
+		  parentForTree = 1;
+	  }else{
+		  parentForTree = globalSettings.currentItem.name + parentLevel;
+	  }
+	  tree.insert(parentForTree, newItem.name + globalSettings.currentLevel, newItem);
 	  //saveFromMap();
 	  saveFromTree();
 	  renderItem(newItem);
@@ -465,7 +463,6 @@ class Tree {
 	  var image = document.getElementById('itemPhoto');
 	  image.style.visibility = "hidden";
           $("#addMessageOrFolderDialog").dialog("close");
-	  //onAddMsgFoldrDlgClose();
 	});
   }
 
