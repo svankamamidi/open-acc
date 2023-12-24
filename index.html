@@ -450,10 +450,13 @@ class Tree {
 	  newItem.image = picBase64;	  
 	  var parentLevel = globalSettings.currentLevel - 1;
 	  var parentForTree;
-	  if (!globalSettings.currentFolder || !globalSettings.currentFolder.name || globalSettings.currentFolder.name === 'root'){
+	  if (globalSettings.currentItem.type !== 'message'){
+		  parentForTree = globalSettings.currentItem.name + parentLevel;
+	  }
+	  else if(!globalSettings.currentFolder || !globalSettings.currentFolder.name || globalSettings.currentFolder.name === 'root'){
 		  parentForTree = 1;
 	  }else{
-		  parentForTree = globalSettings.currentItem.name + parentLevel;
+		  parentForTree = globalSettings.currentFolder.name + parentLevel;
 	  }
 	  tree.insert(parentForTree, newItem.name + globalSettings.currentLevel, newItem);
 	  //saveFromMap();
