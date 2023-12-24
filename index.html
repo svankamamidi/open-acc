@@ -501,11 +501,7 @@ class Tree {
 	"Folder":2
   })  
 	
-  function addFolderOrMessage(interactionType){
-    if (globalSettings.currentLevel >= 2 && interactionType == 2){
-      alert("Only two levels of folders are supported as of now. It is under development. Please contact sudhakarvm@gmail.com if you need more levels.");
-      //return false; 
-    }
+  function addFolderOrMessage(interactionType){    
     globalSettings.lastAction = interactionType;
     $("#addMessageOrFolderDialog").dialog("open");
   }
