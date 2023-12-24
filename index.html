@@ -450,7 +450,7 @@ class Tree {
 	  newItem.image = picBase64;	  
 	  var parentLevel = globalSettings.currentLevel - 1;
 	  var parentForTree;
-	  if (globalSettings.currentItem.type !== 'message'){
+	  if (globalSettings.currentItem && globalSettings.currentItem.type !== 'message'){
 		  parentForTree = globalSettings.currentItem.name + parentLevel;
 	  }
 	  else if(!globalSettings.currentFolder || !globalSettings.currentFolder.name || globalSettings.currentFolder.name === 'root'){
