@@ -445,7 +445,7 @@ class Tree {
 	newItem.parent = globalSettings.parentItem && globalSettings.parentItem.name ? globalSettings.parentItem.name : 'root';	
 	return fetchPicBase64().then((picBase64) => {
 	  newItem.image = picBase64;
-	  if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
+	  /*if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder'){
 	    var children = mainMenuMap.get(globalSettings.parentItem.name).value;
 	    if (!children || !Array.isArray(children)){
 	      children = [];
@@ -455,8 +455,11 @@ class Tree {
 	    mainMenuMap.set(globalSettings.parentItem.name, globalSettings.parentItem);
 	  }else{		
 	    mainMenuMap.set(newItem.name, newItem);
-	  }
-	  saveFromMap();
+	  }*/
+	  var parentLevel = globalSettings.currentLevel - 1;	
+	  tree.insert(globalSettings.currentItem.name + parentLevel, newItem.name + globalSettings.currentLevel, newItem);
+	  //saveFromMap();
+	  saveFromTree();
 	  renderItem(newItem);
 	  document.querySelector('#uploadItemPhoto').value = '';
 	  var image = document.getElementById('itemPhoto');
