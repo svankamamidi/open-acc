@@ -9,6 +9,8 @@ Augmentative and alternative communication tooling
   
 Demo video https://youtu.be/fJvelltfSwo
 
+You can ask questions and clarifications here on Facebook page https://www.facebook.com/profile.php?id=61554643238944
+
 If you have come across any defects/bugs/issues in the software, please feel free to log them as issues here https://github.com/svankamamidi/open-aac/issues
 
 Below is screenshot of the same
