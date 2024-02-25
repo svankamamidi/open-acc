@@ -6,7 +6,8 @@ const appShellFiles = [
   '/open-aac/icons/aac.png',
   'https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css',
   'https://code.jquery.com/jquery-3.6.0.js',
-  'https://code.jquery.com/ui/1.13.0/jquery-ui.js'
+  'https://code.jquery.com/ui/1.13.0/jquery-ui.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js'
 ];
 
 // Installing Service Worker
