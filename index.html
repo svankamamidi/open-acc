@@ -146,6 +146,15 @@
     //Can per page load actions
     //load saved levels & tiles
     loadSavedLevelsFromCache();
+
+    $(".ul-container").sortable({});
+    jQuery('li', jQuery('.ul-container')).draggable({
+      'connectToSortable': '.ul-container',
+      'cancel': 'a.ui-icon',
+      'revert': 'invalid',
+      'containment': 'document',
+      'cursor': 'move'
+    });
   });
   
     class TreeNode {
@@ -287,7 +296,7 @@ class Tree {
       mainMenuMap.set(item.name, item);
       renderItems(item);
     });
-	globalSettings.currentLevel = 1;
+    globalSettings.currentLevel = 1;
   }
 
   function traverseStoredTreeAndCreateNodes(startNode, parentNode, level){
@@ -303,7 +312,7 @@ class Tree {
   }
   
   function createItemLi(item){
-    var li = document.createElement("li");	
+    var li = document.createElement("li");    
     li.addEventListener('click', function() {
       handleItemClick(li, item);
     });
