@@ -21,7 +21,8 @@
   }
   
   .backButtonDiv {
-    width: 15%
+    width: 15%;
+    font-size: larger
   }
   
   .interactionTypes a {
@@ -269,9 +270,9 @@ class Tree {
     var liElement = document.createTextNode(item.name);
     if (item.image && item.image !== "No picture"){
       li.style.backgroundImage = 'url(' + item.image + ')';
-      li.style.backgroundSize = 'cover';
+      li.style.backgroundSize = '100% 85%'; //'cover';
       li.style.backgroundRepeat = 'no-repeat';
-      li.style.backgroundPosition = 'center center';    
+      li.style.backgroundPosition = 'center bottom'; //'center center';    
     }
     li.appendChild(liElement);	  
     ul.appendChild(li);
