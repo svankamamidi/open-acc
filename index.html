@@ -399,7 +399,7 @@ class Tree {
 	var ul = document.getElementById("ul-bread-crumbs");
 	var breadCrumbs = [];
 	breadCrumbs = buildBreadCrumbPath(folderItem, globalSettings.currentLevel + 1);
-	for(let i = 1; i <= breadCrumbs.length; i++){
+	for(let i = 0; i < breadCrumbs.length; i++){
       	  var li = document.createElement("li");
 	  var liElement = document.createTextNode(breadCrumbs[i]);
 	  li.appendChild(liElement);
