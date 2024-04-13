@@ -432,8 +432,8 @@ class Tree {
 	  tree.insert(item.name, childItem.name + (globalSettings.currentLevel + 1), childItem);
         }
       });
-    }
-    updateBreadCrumbs(globalSettings.currentItem);
+      updateBreadCrumbs(globalSettings.currentItem);
+    }    
     //var lookUpKey = 1;
     /*if (globalSettings.parentItem && globalSettings.parentItem.parent && 
 			globalSettings.parentItem.parent != 'root'){
