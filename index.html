@@ -415,6 +415,10 @@ class Tree {
       $(this)[0].remove();
     });
 
+    $('#ul-bread-crumbs li').each(function(){
+      $(this)[0].remove();
+    });	  
+
     globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
     globalSettings.currentItem = globalSettings.parentItem;
     globalSettings.parentItem = globalSettings.currentItem.parent;
@@ -429,7 +433,7 @@ class Tree {
         }
       });
     }
-    
+    updateBreadCrumbs(globalSettings.currentItem);
     //var lookUpKey = 1;
     /*if (globalSettings.parentItem && globalSettings.parentItem.parent && 
 			globalSettings.parentItem.parent != 'root'){
