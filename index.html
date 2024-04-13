@@ -389,7 +389,7 @@ class Tree {
       breadCrumbs.push(folderItem.name);
       var parent = tree.find(folderItem.name + (level-1));
       if (parent && parent.parent){
-        breadCrumbs.append(buildBreadCrumbPath(parent.parent.value, level-2));
+        breadCrumbs.concat(buildBreadCrumbPath(parent.parent.value, level-2));
       }
     }
     return breadCrumbs;
