@@ -383,9 +383,9 @@ class Tree {
   /* recursively builds the folder hierarchy path */
   function buildBreadCrumbPath(folderItem, level){
     var breadCrumbs = [];
-    if (level <= 2){
+    if (level <= 1){
       return breadCrumbs;
-    }else if (level > 2){
+    }else if (level > 1){
       breadCrumbs.push(folderItem.name);
       var parent = tree.find(folderItem.name + (level));
       if (parent && parent.parent){
@@ -398,7 +398,7 @@ class Tree {
   function updateBreadCrumbs(folderItem){
 	var ul = document.getElementById("ul-bread-crumbs");
 	var breadCrumbs = [];
-	breadCrumbs = buildBreadCrumbPath(folderItem, globalSettings.currentLevel);
+	breadCrumbs = buildBreadCrumbPath(folderItem, globalSettings.currentLevel + 1);
 	for(let i = 1; i <= breadCrumbs.length; i++){
       	  var li = document.createElement("li");
 	  var liElement = document.createTextNode(breadCrumbs[i]);
