@@ -364,12 +364,12 @@ class Tree {
     }
   }
 
-  function downloadFile(content){
+  function downloadFile(content, fileName, mimeType){
     const link = document.createElement("a");
     //const content = document.querySelector("textarea").value;
-    const file = new Blob([content], { type: 'text/plain' });
+    const file = new Blob([content], { type: /*'text/plain'*/mimeType });
     link.href = URL.createObjectURL(file);
-    link.download = "summary.txt";
+    link.download = fileName;
     link.click();
     URL.revokeObjectURL(link.href);
   }
@@ -377,7 +377,7 @@ class Tree {
   function exportConfig(){
     var localStorage = window.localStorage;
     var configJsonStr = localStorage.getItem("ul-level-1");
-    downloadFile(configJsonStr);
+    downloadFile(configJsonStr, 'aac-config.json', 'application/json');
   }
 
   function importDialog(){
