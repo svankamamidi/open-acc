@@ -169,6 +169,27 @@
         return false;
       }
     });
+
+    var importConfigDialog = $("#importConfigDialog").dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Save": importConfig,
+        Cancel: function() {	  
+          importConfigDialog.dialog( "close" );
+        }
+      },
+      /*close: function() {		
+      }*/
+    });
+    importConfigDialog.keypress(function(e) {
+      if( e.keyCode == $.ui.keyCode.ENTER ) {
+        $("#importConfigDialog").parent().find('.ui-dialog-buttonpane button:first').click();
+        return false;
+      }
+    });
     
     //Can per page load actions
     //load saved levels & tiles
@@ -381,6 +402,7 @@ class Tree {
   }
 
   function importDialog(){
+    $("#importConfigDialog").dialog("open");
   }
   
   function displayFolderMenu(item){
@@ -877,6 +899,19 @@ value: ())
 			  <input type="file" id="uploadItemPhoto" style="margin-left: 10px" onchange="displayPicture()"/>
 			</div>
 			<img name="itemPhoto" id="itemPhoto" style="width: 50%; height: 50%; margin-top: 20px; border:0px"/>
+			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+		</fieldset>
+	</form>
+</div>
+
+<div id='importConfigDialog' style="display:none">	
+	<form>
+		<fieldset>			
+			<div style="display: flex">
+			  <label for="importConfigFile">Import config</label>
+			  <input type="file" id="importConfigFile" style="margin-left: 10px" />
+			</div>			
 			<!-- Allow form submission with keyboard without duplicating the dialog button -->
 			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 		</fieldset>
