@@ -176,7 +176,7 @@
       width: 350,
       modal: true,
       buttons: {
-        "Save": importConfig,
+        "Import": importConfig,
         Cancel: function() {	  
           importConfigDialog.dialog( "close" );
         }
@@ -401,7 +401,15 @@ class Tree {
     downloadFile(configJsonStr, 'aac-config.json', 'application/json');
   }
 
+  function readFile(fileElementSelector){  
+    return document.querySelector(fileElementSelector).files[0];
+  }
+	
   function importConfig(){
+    var configJson = readFile("#importConfigFile");
+    var localStorage = window.localStorage;
+    debugger;
+    localStorage.setItem("ul-level-1", configJson);
   }	  
 
   function importDialog(){
