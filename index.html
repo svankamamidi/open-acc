@@ -414,6 +414,7 @@ class Tree {
     readTextFile("#importConfigFile").then(configJson => {
       var localStorage = window.localStorage;
       localStorage.setItem("ul-level-1", configJson);
+      $("#importConfigDialog").dialog("close");
     });    
   }	  
 
