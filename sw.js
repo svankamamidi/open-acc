@@ -1,5 +1,5 @@
 // Files to cache
-const cacheName = 'aac2'
+const cacheName = 'aac3'
 const appShellFiles = [
   '/open-aac/',
   '/open-aac/index.html',
@@ -39,3 +39,19 @@ self.addEventListener('fetch', (e) => {
     return response;
   })());
 });
+
+const deleteCache = async (key) => {
+  await caches.delete(key);
+};
+
+const deleteOldCaches = async () => {
+  const cacheKeepList = [cacheName];
+  const keyList = await caches.keys();
+  const cachesToDelete = keyList.filter((key) => !cacheKeepList.includes(key));
+  await Promise.all(cachesToDelete.map(deleteCache));
+};
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(deleteOldCaches());
+});
+
