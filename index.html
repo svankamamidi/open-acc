@@ -402,7 +402,11 @@ class Tree {
   }
 
   function readFile(fileElementSelector){  
-    return document.querySelector(fileElementSelector).files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(document.querySelector(fileElementSelector).files[0]);
+    return reader.onload = () => {
+      return reader.result;
+    }
   }
 	
   function importConfig(){
