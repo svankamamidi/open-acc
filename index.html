@@ -401,19 +401,20 @@ class Tree {
     downloadFile(configJsonStr, 'aac-config.json', 'application/json');
   }
 
-  function readFile(fileElementSelector){  
-    const reader = new FileReader();
-    reader.readAsDataURL(document.querySelector(fileElementSelector).files[0]);
-    return reader.onload = () => {
-      return reader.result;
-    }
+  function readTextFile(fileElementSelector){      
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsText(document.querySelector(fileElementSelector).files[0]);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 	
   function importConfig(){
-    var configJson = readFile("#importConfigFile");
-    var localStorage = window.localStorage;
-    debugger;
-    localStorage.setItem("ul-level-1", configJson);
+    readTextFile("#importConfigFile").then(configJson => {
+      var localStorage = window.localStorage;
+      localStorage.setItem("ul-level-1", configJson);
+    });    
   }	  
 
   function importDialog(){
