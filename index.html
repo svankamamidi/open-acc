@@ -370,7 +370,8 @@ class Tree {
   }
   
   function createItemLi(item){
-    var li = document.createElement("li");	
+    var li = document.createElement("li");
+    li.setAttribute("id", item.name);
     li.addEventListener('click', function() {
       handleItemClick(li, item);
     });
@@ -598,12 +599,13 @@ class Tree {
 	  }
 	  if(globalSettings.currentAction === 'edit'){	    
 	    tree.update(globalSettings.currentItem.name + globalSettings.currentLevel, newItem);
+	    updateItemUI(globalSettings.currentItem.name, newItem);
 	  }else{
 	    tree.insert(parentForTree, newItem.name + globalSettings.currentLevel, newItem);
+	    renderItem(newItem);
 	  }
 	  //saveFromMap();
-	  saveFromTree();
-	  renderItem(newItem);
+	  saveFromTree();	  
 	  document.querySelector('#uploadItemPhoto').value = '';
 	  var image = document.getElementById('itemPhoto');
 	  image.style.visibility = "hidden";
@@ -611,6 +613,9 @@ class Tree {
 	});
   }
 
+  function updateItemUI(oldName, newItem){
+  }
+	
   function saveFromTree(){
     var startNode = tree.root;
     var levelItems = [];
