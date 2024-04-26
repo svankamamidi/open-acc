@@ -598,8 +598,10 @@ class Tree {
 		  parentForTree = globalSettings.currentFolder.name + parentLevel;
 	  }
 	  if(globalSettings.currentAction === 'edit'){	    
+	    var oldName = globalSettings.currentItem.name;
 	    tree.update(globalSettings.currentItem.name + globalSettings.currentLevel, newItem);
-	    updateItemUI(globalSettings.currentItem.name, newItem);
+	    //after above statement globalSettings.currentItem is updated and its name field contains new name!!
+	    updateItemUI(oldName, newItem);
 	  }else{
 	    tree.insert(parentForTree, newItem.name + globalSettings.currentLevel, newItem);
 	    renderItem(newItem);
