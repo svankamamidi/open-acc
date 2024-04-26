@@ -371,7 +371,7 @@ class Tree {
   
   function createItemLi(item){
     var li = document.createElement("li");
-    li.setAttribute("id", item.name);
+    li.setAttribute("id", "li" + item.name);
     li.addEventListener('click', function() {
       handleItemClick(li, item);
     });
@@ -614,6 +614,14 @@ class Tree {
   }
 
   function updateItemUI(oldName, newItem){
+    var uiElement = document.querySelector("#li" + oldName);
+    uiElement.innerText = newItem.name;
+    if (newItem.image && newItem.image !== "No picture"){
+      uiElement.style.backgroundImage = 'url(' + newItem.image + ')';
+      uiElement.style.backgroundSize = '100% 85%'; //'cover';
+      uiElement.style.backgroundRepeat = 'no-repeat';
+      uiElement.style.backgroundPosition = 'center bottom'; //'center center';    
+    }
   }
 	
   function saveFromTree(){
