@@ -589,7 +589,11 @@ class Tree {
 	  }else{
 		  parentForTree = globalSettings.currentFolder.name + parentLevel;
 	  }
-	  tree.insert(parentForTree, newItem.name + globalSettings.currentLevel, newItem);
+	  if(globalSettings.currentAction === 'edit'){	    
+	    tree.update(globalSettings.currentItem.name + globalSettings.currentLevel, newItem);
+	  }else{
+	    tree.insert(parentForTree, newItem.name + globalSettings.currentLevel, newItem);
+	  }
 	  //saveFromMap();
 	  saveFromTree();
 	  renderItem(newItem);
