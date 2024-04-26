@@ -168,9 +168,11 @@
 	document.querySelector('#uploadItemPhoto').value = '';
 	var image = document.getElementById('itemPhoto');
 	image.style.visibility = 'hidden';
-	onAddMsgFoldrDlgClose();
-        //form[ 0 ].reset();
-        //allFields.removeClass( "ui-state-error" );
+	if (globalSettings.currentAction === 'edit'){
+	  addMessageOrFolderDialog.dialog( "close" );	  
+	}else{
+	  onAddMsgFoldrDlgClose();
+	}
       }
     });
     addMessageOrFolderDialog.keypress(function(e) {
@@ -531,7 +533,7 @@ class Tree {
     document.getElementById("item-edit-menu").style.display="none";
     $("#name").val(globalSettings.currentItem.name);
     $("#addMessageOrFolderDialog").dialog("open");	  
-    //displayFolderMenu(globalSettings.parentItem);
+    globalSettings.currentAction = "edit";
   }
   
   function deleteItem(){
