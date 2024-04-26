@@ -248,6 +248,13 @@ class Tree {
     yield node;
   }
 
+  update(key, updatedNode){
+    var currentNode = tree.find(key);
+    currentNode.key = updatedNode.name;
+    currentNode.value.name = updatedNode.name;
+    currentNode.value.image = updatedNode.image;
+  }
+	
   insert(parentNodeKey, key, value = key) {
     for (let node of this.preOrderTraversal()) {
       if (node.key === parentNodeKey) {
