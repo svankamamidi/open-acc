@@ -528,8 +528,10 @@ class Tree {
   }
   
   function editItemContents(){
-	document.getElementById("item-edit-menu").style.display="none";
-    displayFolderMenu(globalSettings.parentItem);
+    document.getElementById("item-edit-menu").style.display="none";
+    $("#name").val(globalSettings.currentItem.name);
+    $("#addMessageOrFolderDialog").dialog("open");	  
+    //displayFolderMenu(globalSettings.parentItem);
   }
   
   function deleteItem(){
