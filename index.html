@@ -205,7 +205,15 @@
     
     //Can per page load actions
     //load saved levels & tiles
-    loadSavedLevelsFromCache();
+    var localStorage = window.localStorage;
+    var levelItems = localStorage.getItem("ul-level-1")
+    if(!levelItems){ //if no custom folder structure defined load default one
+      var configJson = loadFile("aac-config.json");
+      debugger;
+    }   
+    else{
+      loadSavedLevelsFromCache();
+    }
   });
   
     class TreeNode {
@@ -343,7 +351,18 @@ class Tree {
     });
 
   }
-  
+	
+  function loadFile(filePath) {
+    var result = null;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", filePath, false);
+    xmlhttp.send();
+    if (xmlhttp.status==200) {
+      result = xmlhttp.responseText;
+    }
+    return result;
+  }
+	
   function loadSavedLevelsFromCache(){
     var localStorage = window.localStorage;
     tree = new Tree(1, 'root');
