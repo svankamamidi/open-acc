@@ -209,7 +209,7 @@
     var levelItems = localStorage.getItem("ul-level-1")
     if(!levelItems){ //if no custom folder structure defined load default one
       var configJson = loadFile("aac-config.json");
-      debugger;
+      localStorage.setItem("ul-level-1", configJson);
     }   
     else{
       loadSavedLevelsFromCache();
