@@ -210,10 +210,8 @@
     if(!levelItems){ //if no custom folder structure defined load default one
       var configJson = loadFile("aac-config.json");
       localStorage.setItem("ul-level-1", configJson);
-    }   
-    else{
-      loadSavedLevelsFromCache();
-    }
+    }    
+    loadSavedLevelsFromCache();
   });
   
     class TreeNode {
