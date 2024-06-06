@@ -1,8 +1,8 @@
 // Files to cache
-const cacheName = 'aac5.3'
+const cacheName = 'aac5.4'
 const appShellFiles = [
   '/open-aac/',
-  //'/open-aac/index.html',
+  '/open-aac/index.html',
   '/open-aac/icons/aac.png',
   'https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css',
   'https://code.jquery.com/jquery-3.6.0.js',
