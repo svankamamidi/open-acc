@@ -887,6 +887,10 @@ value: ())
       image.src = URL.createObjectURL(pictureFile);
     });
   }
+
+  function updateSearchVal(e){
+    document.getElementById("name-search").textContent = e.target.value;
+  }
 </script>
 
 <div class="top-row prevent-select">
@@ -954,7 +958,7 @@ value: ())
 	<form>
 		<fieldset>
 			<label for="name">Name</label>
-			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px">
+			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px" onchange="updateSearchVal()">
 			<div style="display: block">
 			  <label for="search-name">Search</label>
 			  <input type="text" name="search-name" id="search-name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px">
