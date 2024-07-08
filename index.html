@@ -889,7 +889,7 @@ value: ())
   }
 
   function updateSearchVal(e){
-    document.getElementById("search-name").textContent = e.value;
+    document.getElementById("search-name").value = e.value;
   }
 </script>
 
@@ -968,6 +968,8 @@ value: ())
 			  <input type="file" id="uploadItemPhoto" style="margin-left: 10px" onchange="displayPicture()"/>
 			</div>
 			<img name="itemPhoto" id="itemPhoto" style="width: 50%; height: 50%; margin-top: 20px; border:0px"/>
+			<input type="button" name="left-nav-img-search"/>
+			<input type="button" name="right-nav-img-search"/>
 			<!-- Allow form submission with keyboard without duplicating the dialog button -->
 			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 		</fieldset>
