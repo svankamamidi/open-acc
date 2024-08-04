@@ -395,7 +395,9 @@ class Tree {
     return li;
   }
   
-  function handleItemClick(liElement, item){	
+  function handleItemClick(liElement, item){
+	//Reset previous clicks on Settings
+	globalSettings.settingsClickCount = 0;
 	if(item.type && item.type == 'folder'){
 		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item.parent;
 		globalSettings.currentFolder = globalSettings.parentItem;
