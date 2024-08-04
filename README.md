@@ -17,4 +17,6 @@ Below is screenshot of the same
 
 ![image](https://github.com/svankamamidi/open-aac/assets/3726282/fa7a86bf-01f6-419a-af12-0fb52c639708)
 
+**Configure/Setup**
+
 Parent or care giver can setup the application using Settings. But user has to click three times on the Settings to make it activated. This is to avoid un-intended clicks by the end users.
