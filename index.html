@@ -802,7 +802,13 @@ value: ())
   }
   
   function showSettings(){
-    globalSettings.adminMode = !globalSettings.adminMode;
+    if (!globalSettings.settingsClickCount){
+      globalSettings.settingsClickCount = 1;
+    }else{
+      globalSettings.settingsClickCount = globalSettings.settingsClickCount + 1;
+    }
+    if (globalSettings.settingsClickCount >= 3){
+    	globalSettings.adminMode = !globalSettings.adminMode;
 	if (globalSettings.adminMode){
 		document.getElementById("addInteractionDiv").style.display="table";
 		document.getElementById("footer-level-1").style.display="table";
@@ -814,8 +820,10 @@ value: ())
 		document.getElementById("exportDiv").style.display="none";
 		document.getElementById("importDiv").style.display="none";
 	}
-    //alert('Settings enabled');
-	//$( "#aac_settings" ).dialog();
+	if (globalSettings.settingsClickCount === 4){
+	  globalSettings.settingsClickCount = 0;
+	}
+    }
   }
   
   toBase64 = file => new Promise((resolve, reject) => {
