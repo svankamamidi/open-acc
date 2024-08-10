@@ -585,7 +585,7 @@ class Tree {
 	
   function fetchPicBase64(imageTagId){
   	if (document.getElementById(imageTagId) && document.getElementById(imageTagId).src && document.getElementById(imageTagId).src.includes("base64")){
-	  return document.getElementById(imageTagId).src;
+	  return Promise.resolve(document.getElementById(imageTagId).src);
 	}
 	var picUploadPromise;
 	document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
