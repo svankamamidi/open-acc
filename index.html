@@ -923,7 +923,7 @@ value: ())
       })
       .then(response => response)
       .then(response => {
-        return toBase64(response.blob()).then(base64File => {
+        return toBase64(response.body).then(base64File => {
 	  image.src = base64File;
 	}); 	
       })
