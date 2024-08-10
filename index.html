@@ -936,7 +936,13 @@ value: ())
     .then(response => response.json())
     .then(searchRes => {
       var image = document.getElementById('itemPhoto');
-      image.src = searchRes.photos.length > 0 && searchRes.photos[0].src.small;
+      //image.src = searchRes.photos.length > 0 && searchRes.photos[0].src.small;
+      fetch(searchRes.photos.length > 0 && searchRes.photos[0].src.small)
+      .then(function (response) {
+        return toBase64(response.blob()).then(base64File => {
+	  image.src = base64File;
+	}); 	
+      })
       console.log(searchRes);
     }); 
   }
