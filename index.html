@@ -917,22 +917,25 @@ value: ())
       var image = document.getElementById('itemPhoto');
       //image.src = searchRes.photos.length > 0 && searchRes.photos[0].src.small;
       fetch(searchRes.photos[0].src.small , {
-      		headers: {
-        		"Authorization": "pZCY6KuRGrSRpPbXlovz3Nww5I0eF6x3Dc22X0Cfj2ow0oyljl7AzSAy"
-      		}
+   	headers: {
+          "Authorization": "pZCY6KuRGrSRpPbXlovz3Nww5I0eF6x3Dc22X0Cfj2ow0oyljl7AzSAy"
+      	}
       })
-      .then(response => toBase64(response.blob()))
-      .then(base64encodedData => {
-        //const base64encodedData = base64encode(response);
-	image.src = 'data:image/jpeg;base64,' +base64encodedData;	
+      .then((response) => {
+	return response.blob();
+      })	      
+      .then((blob) => {
+        var reader = new FileReader();
+          reader.readAsDataURL(blob); 
+          reader.onloadend = function() {
+            var base64data = reader.result;              
+            console.log(base64data);
+	    image.src = base64data;	
+          }	
       })
       console.log(searchRes);
     }); 
-  }
-  
-  function base64encode(str) {
-    return btoa(unescape(encodeURIComponent(str)));
-  }	
+  }  
 </script>
 
 <div class="top-row prevent-select">
