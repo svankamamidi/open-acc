@@ -1003,7 +1003,7 @@ value: ())
 	<form>
 		<fieldset>
 			<label for="name">Name</label>
-			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px" onchange="updateSearchVal(this)">
+			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px" onfocusout="updateSearchVal(this)">
 			<div style="display: block">
 			  <label for="search-name">Search</label>
 			  <input type="text" name="search-name" id="search-name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px" onfocusout="doImgSearch()">
