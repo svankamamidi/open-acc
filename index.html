@@ -584,9 +584,9 @@ class Tree {
   }
 	
   function fetchPicBase64(imageTagId){
-  	/*if (document.getElementById(imageTagId) && document.getElementById(imageTagId).src){
+  	if (document.getElementById(imageTagId) && document.getElementById(imageTagId).src && document.getElementById(imageTagId).src.includes("base64")){
 	  return convertToBase64(imageTagId);
-	}*/
+	}
 	var picUploadPromise;
 	document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
           picUploadPromise = toBase64(pictureFile).then(base64VoiceFile => {
