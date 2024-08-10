@@ -901,6 +901,12 @@ value: ())
   function updateSearchVal(e){
     document.getElementById("search-name").value = e.value;
   }
+
+  function doImgSearch(event){
+    fetch("https://api.pexels.com/v1/search?query=nature&per_page=1")
+    .then(response => response.json())
+    .then(data => console.log(data));
+  }
 </script>
 
 <div class="top-row prevent-select">
@@ -971,7 +977,7 @@ value: ())
 			<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px" onchange="updateSearchVal(this)">
 			<div style="display: block">
 			  <label for="search-name">Search</label>
-			  <input type="text" name="search-name" id="search-name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px">
+			  <input type="text" name="search-name" id="search-name" class="text ui-widget-content ui-corner-all" style="margin-bottom: 20px" onfocusout="doImgSearch()">
 			</div>
 			<div style="display: flex">
 			  <label for="itemPhoto">Picture</label>
