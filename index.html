@@ -921,17 +921,18 @@ value: ())
         		"Authorization": "pZCY6KuRGrSRpPbXlovz3Nww5I0eF6x3Dc22X0Cfj2ow0oyljl7AzSAy"
       		}
       })
-      .then(response => response)
+      .then(response => response.text())
       .then(response => {
-	const response2 = new Response(response.body);
-    	const blob = response2.blob();
-        return toBase64(blob).then(base64File => {
-	  image.src = base64File;
-	}); 	
+        const base64encodedData = base64encode(data);
+	image.src = base64encodedData;	
       })
       console.log(searchRes);
     }); 
   }
+  
+  function base64encode(str: string): string {
+    return btoa(unescape(encodeURIComponent(str)));
+  }	
 </script>
 
 <div class="top-row prevent-select">
