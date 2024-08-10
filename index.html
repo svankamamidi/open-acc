@@ -942,7 +942,7 @@ value: ())
         		"Authorization": "pZCY6KuRGrSRpPbXlovz3Nww5I0eF6x3Dc22X0Cfj2ow0oyljl7AzSAy"
       		}
       })
-      .then(response => response.json())
+      .then(response => response)
       .then(response => {
         return toBase64(response.blob()).then(base64File => {
 	  image.src = base64File;
