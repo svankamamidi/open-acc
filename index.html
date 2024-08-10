@@ -903,7 +903,8 @@ value: ())
   }
 
   function doImgSearch(event){
-    fetch("https://api.pexels.com/v1/search?query=nature&per_page=1", {
+    var apiUrl = "https://api.pexels.com/v1/search?query=" + document.getElementById("search-name").value + "&per_page=1"; 
+    fetch(apiUrl, {
       headers: {
         "Authorization": "pZCY6KuRGrSRpPbXlovz3Nww5I0eF6x3Dc22X0Cfj2ow0oyljl7AzSAy"
       }
