@@ -924,7 +924,7 @@ value: ())
       .then(response => response.text())
       .then(response => {
         const base64encodedData = base64encode(response);
-	image.src = base64encodedData;	
+	image.src = 'data:image/jpeg;base64,' +base64encodedData;	
       })
       console.log(searchRes);
     }); 
