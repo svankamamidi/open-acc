@@ -582,32 +582,11 @@ class Tree {
 	//saveFromMap();
 	saveFromTree();  
   }
-
-  function convertToBase64(imageTagId) {
-    var img = document.getElementById(imageTagId);
-    
-    // Create a canvas element
-    var canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    
-    // Draw the image onto the canvas
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    
-    // Get the data URL of the image in Base64 format
-    var dataURL = canvas.toDataURL('image/jpeg'); // or 'image/png'
-    
-    // Remove the "data:image/jpeg;base64," prefix and get just the Base64 string
-    var base64String = dataURL.replace(/^data:image\/(png|jpeg);base64,/, '');
-    
-    return base64String;
-}
 	
   function fetchPicBase64(imageTagId){
-  	if (document.getElementById(imageTagId) && document.getElementById(imageTagId).src){
+  	/*if (document.getElementById(imageTagId) && document.getElementById(imageTagId).src){
 	  return convertToBase64(imageTagId);
-	}
+	}*/
 	var picUploadPromise;
 	document.querySelector('#uploadItemPhoto').files && Array.from(document.querySelector('#uploadItemPhoto').files).forEach(pictureFile => {
           picUploadPromise = toBase64(pictureFile).then(base64VoiceFile => {
