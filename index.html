@@ -937,7 +937,11 @@ value: ())
     .then(searchRes => {
       var image = document.getElementById('itemPhoto');
       //image.src = searchRes.photos.length > 0 && searchRes.photos[0].src.small;
-      fetch(searchRes.photos.length > 0 && searchRes.photos[0].src.small)
+      fetch(searchRes.photos[0].src.small , {
+      		headers: {
+        		"Authorization": "pZCY6KuRGrSRpPbXlovz3Nww5I0eF6x3Dc22X0Cfj2ow0oyljl7AzSAy"
+      		}
+      })
       .then(function (response) {
         return toBase64(response.blob()).then(base64File => {
 	  image.src = base64File;
