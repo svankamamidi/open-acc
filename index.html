@@ -923,7 +923,9 @@ value: ())
       })
       .then(response => response)
       .then(response => {
-        return toBase64(response.body).then(base64File => {
+	const response2 = new Response(response.body);
+    	const blob = await response2.blob();
+        return toBase64(blob).then(base64File => {
 	  image.src = base64File;
 	}); 	
       })
