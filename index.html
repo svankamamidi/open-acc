@@ -909,7 +909,11 @@ value: ())
       }
     })
     .then(response => response.json())
-    .then(data => console.log(data)); 
+    .then(searchRes => {
+      var image = document.getElementById('itemPhoto');
+      image.src = searchRes.photos.length > 0 && searchRes.photos[0].src.small;
+      console.log(searchRes);
+    }); 
   }
 </script>
 
