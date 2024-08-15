@@ -552,8 +552,9 @@ class Tree {
     if (globalSettings) {
       globalSettings.currentItemLiEle = liElement;
     }    
-    var rect = liElement.getBoundingClientRect();
-    $("#item-edit-menu").menu().position({my: "left top", at: "right bottom", of: liElement}).show();
+    
+    $("#item-edit-menu").menu().hide();
+    $("#item-edit-menu").position({my: "left top", at: "right bottom", of: liElement}).show();
     //document.getElementById("item-edit-menu").style.display="block";
   }
   
