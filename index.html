@@ -554,7 +554,12 @@ class Tree {
     }    
     
     $("#item-edit-menu").menu().hide();
-    $("#item-edit-menu").position({my: "left top", at: "right bottom", of: liElement}).show();
+    var menu = document.getElementById('item-edit-menu');
+    menu.style.position = "absolute";
+    menu.style.left = event.x + 'px';
+    menu.style.top = event.y + 'px';
+    $("#item-edit-menu").show();
+    //.position({my: "left top", at: "right bottom", of: liElement})
     //document.getElementById("item-edit-menu").style.display="block";
   }
   
