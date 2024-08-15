@@ -554,7 +554,7 @@ class Tree {
     }
     document.getElementById("item-edit-menu").style.display="block";
     var rect = liElement.getBoundingClientRect();
-    $("#item-edit-menu").menu({position: { of: liElement}});
+    $("#item-edit-menu").menu({"position" : { of: liElement}});
   }
   
   function editItemContents(){
