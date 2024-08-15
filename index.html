@@ -553,7 +553,7 @@ class Tree {
       globalSettings.currentItemLiEle = liElement;
     }    
     var rect = liElement.getBoundingClientRect();
-    $("#item-edit-menu").menu().position({my: "right top", at: "right bottom", of: liElement});
+    $("#item-edit-menu").menu().position({my: "right top", at: "right bottom", of: liElement, collision: "none"});
     document.getElementById("item-edit-menu").style.display="block";
   }
   
