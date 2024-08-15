@@ -181,6 +181,12 @@
         return false;
       }
     });
+    // Event listener for clicking outside the menu
+    $(document).on("click", function(event) {      
+      if (!$(event.target).closest("#item-edit-menu").length) {
+        $("#item-edit-menu").hide();
+      }
+    });
 
     var importConfigDialog = $("#importConfigDialog").dialog({
       autoOpen: false,
@@ -559,19 +565,20 @@ class Tree {
     menu.style.left = event.x + 'px';
     menu.style.top = event.y + 'px';
     $("#item-edit-menu").show();
-    //.position({my: "left top", at: "right bottom", of: liElement})
-    //document.getElementById("item-edit-menu").style.display="block";
+    //.position({my: "left top", at: "right bottom", of: liElement})    
   }
   
   function editItemContents(){
-    document.getElementById("item-edit-menu").style.display="none";
+    $("#item-edit-menu").menu().hide();
+    //document.getElementById("item-edit-menu").style.display="none";
     $("#name").val(globalSettings.currentItem.name);
     $("#addMessageOrFolderDialog").dialog("open");	  
     globalSettings.currentAction = "edit";
   }
   
   function deleteItem(){
-    document.getElementById("item-edit-menu").style.display="none";
+    $("#item-edit-menu").menu().hide();	  
+    //document.getElementById("item-edit-menu").style.display="none";
     tree.remove(globalSettings.currentItem.name + globalSettings.currentLevel);
 	/*
 	if (globalSettings.parentItem && globalSettings.parentItem.type == 'folder' && 
