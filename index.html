@@ -183,7 +183,7 @@
     });
     // Event listener for clicking outside the menu
     $(document).on("click", function(event) {      
-      if (!$(event.target).closest("#item-edit-menu").length) {
+      if (!$(event.target).closest("#item-edit-menu, #ul-level-1").length) {
         $("#item-edit-menu").hide();
       }
     });
