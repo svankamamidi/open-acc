@@ -551,10 +551,10 @@ class Tree {
   function handleItemEdit(liElement, event){
     if (globalSettings) {
       globalSettings.currentItemLiEle = liElement;
-    }
-    document.getElementById("item-edit-menu").style.display="block";
+    }    
     var rect = liElement.getBoundingClientRect();
     $("#item-edit-menu").menu({"position" : { of: event}});
+    document.getElementById("item-edit-menu").style.display="block";
   }
   
   function editItemContents(){
