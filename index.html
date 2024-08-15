@@ -933,6 +933,7 @@ value: ())
   }
 
   function doImgSearch(event){
+    fileIndex = 0;
     var apiUrl = "https://api.pexels.com/v1/search?query=" + document.getElementById("search-name").value + "&per_page=80"; 
     fetch(apiUrl, {
       headers: {
