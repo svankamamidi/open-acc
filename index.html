@@ -408,7 +408,10 @@ class Tree {
 		globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item.parent;
 		globalSettings.currentFolder = globalSettings.parentItem;
 	}else{
-		globalSettings.currentFolder = globalSettings.parentItem;
+		if (!globalSettings.parentItem){
+			globalSettings.parentItem = 'root';
+		}
+		globalSettings.currentFolder = globalSettings.parentItem;		
 	}
 	globalSettings.currentItem = item;
     if (globalSettings && globalSettings.adminMode){
