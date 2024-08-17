@@ -534,8 +534,13 @@ class Tree {
     });	  
 
     globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
-    globalSettings.currentItem = globalSettings.parentItem;
-    globalSettings.parentItem = globalSettings.currentItem.parent;
+    if (globalSettings.parentItem){
+      globalSettings.currentItem = globalSettings.parentItem;
+      globalSettings.parentItem = globalSettings.currentItem.parent;
+    }else{	  
+      globalSettings.currentItem = globalSettings.currentItem.parent;
+      globalSettings.parentItem = 'root';
+    }    
     if (globalSettings.currentItem === 'root' || globalSettings.parentItem === 'root'){
       loadSavedLevelsFromCache();
     }else{
