@@ -417,9 +417,8 @@ class Tree {
 		}
 		if (globalSettings.currentItem && globalSettings.currentItem.type === 'folder' && globalSettings.currentItem.parent === globalSettings.parentItem){
 			globalSettings.parentItem = globalSettings.currentItem;
-		}else{
-			globalSettings.currentFolder = globalSettings.parentItem;
 		}
+		globalSettings.currentFolder = globalSettings.parentItem;		
 	}
 	globalSettings.currentItem = item;
     if (globalSettings && globalSettings.adminMode){
@@ -535,7 +534,7 @@ class Tree {
 
     globalSettings.currentLevel = globalSettings.currentLevel ? globalSettings.currentLevel - 1 : 1;
     if (globalSettings.parentItem){
-      globalSettings.currentItem = globalSettings.parentItem;
+      globalSettings.currentItem = globalSettings.parentItem.parent;//TODO: have to get object, here globalSettings.parentItem.parent is just string
       globalSettings.parentItem = globalSettings.currentItem.parent;
     }else{	  
       globalSettings.currentItem = globalSettings.currentItem.parent;
