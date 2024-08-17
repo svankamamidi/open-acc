@@ -541,7 +541,7 @@ class Tree {
       globalSettings.currentItem = globalSettings.currentItem.parent;
       globalSettings.parentItem = 'root';
     }    
-    if (globalSettings.currentItem === 'root'){
+    if (!globalSettings.currentItem || globalSettings.currentItem === 'root'){
       loadSavedLevelsFromCache();
     }else{
       var item = globalSettings.currentItem;
