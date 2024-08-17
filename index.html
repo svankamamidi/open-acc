@@ -405,11 +405,12 @@ class Tree {
 	//Reset previous clicks on Settings
 	globalSettings.settingsClickCount = 0;
 	if(item.type && item.type == 'folder'){
-		if (globalSettings.currentItem && globalSettings.currentItem.type === 'folder'){
+		/*if (globalSettings.currentItem && globalSettings.currentItem.type === 'folder'){
 			globalSettings.parentItem = globalSettings.currentItem ? globalSettings.currentItem : item.parent;
 		}else{
 			globalSettings.parentItem = globalSettings.currentFolder;
-		}		
+		}*/
+		globalSettings.parentItem = item;
 		globalSettings.currentFolder = globalSettings.parentItem;
 	}else{
 		if (!globalSettings.parentItem){
