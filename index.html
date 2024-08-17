@@ -538,7 +538,7 @@ class Tree {
       globalSettings.currentItem = tree.find(globalSettings.parentItem.parent + (globalSettings.currentLevel-1)).value; //have to get object because here globalSettings.parentItem.parent is just string
       globalSettings.parentItem = globalSettings.currentItem.parent;
     }else{	  
-      globalSettings.currentItem = globalSettings.currentItem.parent;
+      globalSettings.currentItem = 'root';//globalSettings.currentItem.parent
       globalSettings.parentItem = 'root';
     }    
     if (!globalSettings.currentItem || globalSettings.currentItem === 'root'){
