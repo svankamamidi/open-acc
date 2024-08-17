@@ -695,6 +695,7 @@ class Tree {
 	    array.push(element.value);
     })
     startNode.value.value = array;
+    startNode.value.parent = startNode?.parent?.value?.name;
   }
 	
   function saveFromMap(){
