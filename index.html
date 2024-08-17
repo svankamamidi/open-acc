@@ -416,7 +416,7 @@ class Tree {
 			globalSettings.parentItem = 'root';
 		}
 		if (globalSettings.currentItem && globalSettings.currentItem.type === 'folder' && globalSettings.currentItem.parent === globalSettings.parentItem){
-			globalSettings.parentItem = globalSettings.currentItem.name;
+			globalSettings.parentItem = globalSettings.currentItem;
 		}else{
 			globalSettings.currentFolder = globalSettings.parentItem;
 		}
