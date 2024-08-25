@@ -162,7 +162,10 @@
 	  var image = document.getElementById('itemPhoto');
 	  image.style.visibility = 'hidden';
           addMessageOrFolderDialog.dialog( "close" );
-        }
+        },
+	open: function( event, ui ) {
+	  //TODO: render the existing image (image could have been sourced from search or upload)
+	}
       },
       close: function() {
 	document.querySelector('#uploadItemPhoto').value = '';
