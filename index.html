@@ -2,6 +2,31 @@
 <link rel="manifest" href="manifest.json" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <style>
+  .keyboard {
+    display: grid;
+    gap: 10px;
+  }
+
+  .row {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+  }
+
+  .key {
+      padding: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      min-width: 40px;
+  }
+
+  .uppercase-toggle, .enter, .space-bar {
+      flex: 2; /* makes the key wider */
+  }	
   .prevent-select {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
@@ -998,6 +1023,42 @@ value: ())
   function removePicture(){
     document.getElementById("itemPhoto").src = "";
   }
+
+document.addEventListener('DOMContentLoaded', () => {
+    let isUppercase = false;
+    let typedText = ""; // Holds the typed text
+
+    // Toggle uppercase
+    document.querySelector('.uppercase-toggle').addEventListener('click', () => {
+        isUppercase = !isUppercase;
+        document.querySelectorAll('.row .key').forEach(button => {
+            if (button.innerText.match(/[a-zA-Z]/)) {
+                button.innerText = isUppercase ? button.innerText.toUpperCase() : button.innerText.toLowerCase();
+            }
+        });
+    });
+
+    // Add event listener to each key
+    document.querySelectorAll('.keyboard .key').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const key = event.target.innerText;
+
+            if (key === "Enter") {
+                console.log("Enter Key Pressed"); // For demonstration
+                typedText += "\n"; // Add a newline for Enter
+            } else if (key === "Space") {
+                console.log("Space Bar Pressed"); // For demonstration
+                typedText += " "; // Add a space for Space bar
+            } else if (key !== "Caps") { // Ignore "Caps" key
+                typedText += key;
+            }
+
+            console.log("Typed Text: " + typedText); // Display the typed text in the console
+        });
+    });
+});
+
+
 </script>
 
 <div class="top-row prevent-select">
@@ -1105,4 +1166,61 @@ value: ())
 <div id='aac_settings' style="display:none">
   <label for="upload-files">Select voice files to load:</label>
   <input type="file" multiple=true id="upload-files" onchange='voiceFilesUploaded(event)'/>
+</div>
+
+<div class="keyboard">
+    <!-- Number Row -->
+    <div class="row">
+        <button class="key">1</button>
+        <button class="key">2</button>
+        <button class="key">3</button>
+        <button class="key">4</button>
+        <button class="key">5</button>
+        <button class="key">6</button>
+        <button class="key">7</button>
+        <button class="key">8</button>
+        <button class="key">9</button>
+        <button class="key">0</button>
+    </div>
+    <!-- Alphabet Row 1 -->
+    <div class="row">
+        <button class="key">Q</button>
+        <button class="key">W</button>
+        <button class="key">E</button>
+        <button class="key">R</button>
+        <button class="key">T</button>
+        <button class="key">Y</button>
+        <button class="key">U</button>
+        <button class="key">I</button>
+        <button class="key">O</button>
+        <button class="key">P</button>
+    </div>
+    <!-- Alphabet Row 2 -->
+    <div class="row">
+        <button class="key">A</button>
+        <button class="key">S</button>
+        <button class="key">D</button>
+        <button class="key">F</button>
+        <button class="key">G</button>
+        <button class="key">H</button>
+        <button class="key">J</button>
+        <button class="key">K</button>
+        <button class="key">L</button>
+    </div>
+    <!-- Alphabet Row 3 -->
+    <div class="row">
+        <button class="key uppercase-toggle">Caps</button>
+        <button class="key">Z</button>
+        <button class="key">X</button>
+        <button class="key">C</button>
+        <button class="key">V</button>
+        <button class="key">B</button>
+        <button class="key">N</button>
+        <button class="key">M</button>
+        <button class="key enter">Enter</button>
+    </div>
+    <!-- Space Row -->
+    <div class="row">
+        <button class="key space-bar">Space</button>
+    </div>
 </div>
