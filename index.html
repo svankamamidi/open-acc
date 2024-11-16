@@ -1028,9 +1028,11 @@ value: ())
     if (globalSettings.keyBoardEnabled){
       globalSettings.keyBoardEnabled = false;
       document.getElementById("keyboard").style.display="none";
+      document.getElementById("ul-level-1").style.display="block";
     }else{
       globalSettings.keyBoardEnabled = true;
-       document.getElementById("keyboard").style.display="block";
+      document.getElementById("keyboard").style.display="block";
+      document.getElementById("ul-level-1").style.display="none";
     }
   }
 	
