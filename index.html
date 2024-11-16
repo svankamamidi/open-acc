@@ -1064,7 +1064,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (key !== "Caps") { // Ignore "Caps" key
                 typedText += key;
             }
-
+	    document.getElementById("textareaEle").value = typedText;
             console.log("Typed Text: " + typedText); // Display the typed text in the console
         });
     });
