@@ -1114,6 +1114,62 @@ document.addEventListener('DOMContentLoaded', () => {
 	</ul>
 	<ul id="ul-level-1" class="ul-container">
 	</ul>
+	<div id="keyboard" class="keyboard" style="display:none">
+	    <!-- Number Row -->
+	    <div class="row">
+	        <button class="key">1</button>
+	        <button class="key">2</button>
+	        <button class="key">3</button>
+	        <button class="key">4</button>
+	        <button class="key">5</button>
+	        <button class="key">6</button>
+	        <button class="key">7</button>
+	        <button class="key">8</button>
+	        <button class="key">9</button>
+	        <button class="key">0</button>
+	    </div>
+	    <!-- Alphabet Row 1 -->
+	    <div class="row">
+	        <button class="key">Q</button>
+	        <button class="key">W</button>
+	        <button class="key">E</button>
+	        <button class="key">R</button>
+	        <button class="key">T</button>
+	        <button class="key">Y</button>
+	        <button class="key">U</button>
+	        <button class="key">I</button>
+	        <button class="key">O</button>
+	        <button class="key">P</button>
+	    </div>
+	    <!-- Alphabet Row 2 -->
+	    <div class="row">
+	        <button class="key">A</button>
+	        <button class="key">S</button>
+	        <button class="key">D</button>
+	        <button class="key">F</button>
+	        <button class="key">G</button>
+	        <button class="key">H</button>
+	        <button class="key">J</button>
+	        <button class="key">K</button>
+	        <button class="key">L</button>
+	    </div>
+	    <!-- Alphabet Row 3 -->
+	    <div class="row">
+	        <button class="key uppercase-toggle">Caps</button>
+	        <button class="key">Z</button>
+	        <button class="key">X</button>
+	        <button class="key">C</button>
+	        <button class="key">V</button>
+	        <button class="key">B</button>
+	        <button class="key">N</button>
+	        <button class="key">M</button>
+	        <button class="key enter">Enter</button>
+	    </div>
+	    <!-- Space Row -->
+	    <div class="row">
+	        <button class="key space-bar">Space</button>
+	    </div>
+	</div>
 </div>
 <div id="aac-settings-icon" class="admin-settings">
   <a href="#" onclick="showSettings()">Settings</a>
@@ -1176,61 +1232,4 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id='aac_settings' style="display:none">
   <label for="upload-files">Select voice files to load:</label>
   <input type="file" multiple=true id="upload-files" onchange='voiceFilesUploaded(event)'/>
-</div>
-
-<div id="keyboard" class="keyboard" style="display:none">
-    <!-- Number Row -->
-    <div class="row">
-        <button class="key">1</button>
-        <button class="key">2</button>
-        <button class="key">3</button>
-        <button class="key">4</button>
-        <button class="key">5</button>
-        <button class="key">6</button>
-        <button class="key">7</button>
-        <button class="key">8</button>
-        <button class="key">9</button>
-        <button class="key">0</button>
-    </div>
-    <!-- Alphabet Row 1 -->
-    <div class="row">
-        <button class="key">Q</button>
-        <button class="key">W</button>
-        <button class="key">E</button>
-        <button class="key">R</button>
-        <button class="key">T</button>
-        <button class="key">Y</button>
-        <button class="key">U</button>
-        <button class="key">I</button>
-        <button class="key">O</button>
-        <button class="key">P</button>
-    </div>
-    <!-- Alphabet Row 2 -->
-    <div class="row">
-        <button class="key">A</button>
-        <button class="key">S</button>
-        <button class="key">D</button>
-        <button class="key">F</button>
-        <button class="key">G</button>
-        <button class="key">H</button>
-        <button class="key">J</button>
-        <button class="key">K</button>
-        <button class="key">L</button>
-    </div>
-    <!-- Alphabet Row 3 -->
-    <div class="row">
-        <button class="key uppercase-toggle">Caps</button>
-        <button class="key">Z</button>
-        <button class="key">X</button>
-        <button class="key">C</button>
-        <button class="key">V</button>
-        <button class="key">B</button>
-        <button class="key">N</button>
-        <button class="key">M</button>
-        <button class="key enter">Enter</button>
-    </div>
-    <!-- Space Row -->
-    <div class="row">
-        <button class="key space-bar">Space</button>
-    </div>
 </div>
