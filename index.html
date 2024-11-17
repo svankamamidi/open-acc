@@ -2,27 +2,70 @@
 <link rel="manifest" href="manifest.json" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <style>
-  .keyboard {
-    display: grid;
-    gap: 10px;
-  }
+    .keyboard {
+        display: grid;
+        gap: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
 
-  .row {
-      display: flex;
-      gap: 5px;
-      justify-content: center;
-  }
+    .row {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
 
-  .key {
-      padding: 15px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      min-width: 40px;
-  }
+    .key {
+        padding: 15px;
+        flex: 1; /* Keys will stretch to fill available space */
+        max-width: 8%; /* Adjust for reasonable width */
+        font-size: 16px;
+        text-align: center;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .key:hover {
+        background-color: #d0d0d0;
+    }
+
+    .key.space-bar {
+        flex: 4; /* Space bar takes more space */
+    }
+
+    .key.enter, .key.uppercase-toggle {
+        flex: 1.5;
+    }
+
+    /* Adjust layout for smaller screens */
+    @media (max-width: 768px) {
+        .key {
+            font-size: 14px;
+            padding: 10px;
+            max-width: 10%; /* Reduce key width for smaller screens */
+        }
+        .key.space-bar {
+            flex: 3; /* Slightly smaller space bar */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .key {
+            font-size: 12px;
+            padding: 8px;
+            max-width: 12%; /* Even smaller keys for very small screens */
+        }
+        .key.space-bar {
+            flex: 2; /* Adjust space bar for very small screens */
+        }
+    }
 
   .uppercase-toggle, .enter, .space-bar {
       flex: 2; /* makes the key wider */
