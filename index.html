@@ -1104,11 +1104,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (key === "Space") {
                 console.log("Space Bar Pressed"); // For demonstration
                 typedText += " "; // Add a space for Space bar
-            } else if (key !== "Caps") { // Ignore "Caps" key
-                typedText += key;
             } else if (key ==='Backspace') {
               // Handle Backspace
               typedText = typedText.slice(0, -1);
+            } else if (key !== "Caps") { // Ignore "Caps" key
+                typedText += key;
             }
 	    document.getElementById("textareaEle").value = typedText;
             console.log("Typed Text: " + typedText); // Display the typed text in the console
